@@ -1,8 +1,9 @@
 import React from "react";
 
-export default function Button({ loading, text, style }) {
+export default function Button({ loading, text, style, onClickHandler }) {
   return (
     <button
+      onClick={onClickHandler}
       disabled={loading}
       type="submit"
       className={`px-6 border border-primary py-1 text-primary dark:border-secondary dark:text-secondary dark:hover:bg-secondary dark:hover:text-white hover:bg-primary hover:text-white rounded transition-all duration-200 ${style}`}

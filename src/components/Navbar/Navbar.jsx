@@ -34,19 +34,38 @@ export const Navbar = () => {
               open ? "top-5 bg-white dark:bg-black" : "-top-full"
             } right-0 md:w-fit w-full gap-5 transition-all duration-300 md:h-0 md:gap-10 rounded-b-xl md:rounded-b-none p-5 text-lg items-center z-20`}
           >
-            {navItems.map((navItem, index) => (
-              <NavLink
-                className={({ isActive }) =>
-                  isActive
-                    ? "font-semibold text-secondary"
-                    : "hover:text-secondary dark:text-white"
-                }
-                to={navItem.path}
-                key={index}
-              >
-                {navItem.pathName}
-              </NavLink>
-            ))}
+            {navItems.map((navItem, index) => {
+              if (!navItem.condition) {
+                return (
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? "font-semibold text-secondary"
+                        : "hover:text-secondary dark:text-white"
+                    }
+                    to={navItem.path}
+                    key={index}
+                  >
+                    {navItem.pathName}
+                  </NavLink>
+                );
+              } else if (navItem.condition && currentUser) {
+                return (
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? "font-semibold text-secondary"
+                        : "hover:text-secondary dark:text-white"
+                    }
+                    to={navItem.path}
+                    key={index}
+                  >
+                    {navItem.pathName}
+                  </NavLink>
+                );
+              }
+              return null;
+            })}
             <div className="flex items-center gap-8">
               <div
                 onClick={toggleDarkMode}
@@ -113,7 +132,10 @@ export const Navbar = () => {
                   </div>
                 </div>
               ) : (
-                <Button text={"Login"} />
+                <Button
+                  text={"Login"}
+                  onClickHandler={() => navigate("/login")}
+                />
               )}
             </div>
           </nav>

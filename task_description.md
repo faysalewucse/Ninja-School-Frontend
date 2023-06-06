@@ -1,29 +1,3 @@
-## :writing_hand: **Main Requirements**
-
-1.  Focus on making the website visually appealing. Ensure that
-
-    - color contrast is pleasing to the eye
-    - the website does not have a **"gobindo design"**
-    - the website has proper alignment and space
-    - Do not directly copy-paste a component design from a component library you are using. You will have to customize the design. (e.g. If you are using DaisyUi & you decided to use a card component, you will have to customize the styling of that card rather than just copy & paste it)
-
-    <br/>
-
-    > **Note:** Your website must not be related to your previous assignments' layout/ design or any practice project shown in the course modules or our conceptual sessions. Ex: You can't copy any design or similar functionality/ layout of
-
-        ● Dragon news
-        ● Espresso Emporium
-        ● Car Doctor
-        ● Travel guru
-        ● Volunteer network
-        ● Bistro Boss
-        ● Doc House
-        ● Job Portal Website/ Aircnc or Any conceptual session project etc.
-
-    **If any similarities are found, you will get zero(0) as a penalty.**
-
-    <br/>
-
 2.  Make sure to keep the navbar and footer **on all the pages except on the 404 page**. Create a good, stylish, and meaningful footer. (including website logo or name or both, copyright, some contact information, Address etc.)
 
 <br/>
