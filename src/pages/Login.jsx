@@ -4,22 +4,40 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { useState } from "react";
+import { Toaster, toast } from "react-hot-toast";
 
 export const Login = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const { googleSignIn } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const { googleSignIn, login } = useAuth();
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
-  const loginHandler = (data) => console.log(data);
+  const loginHandler = (data) => {
+    const { email, password } = data;
+    setLoading(true);
+    login(email, password)
+      .then((result) => {
+        if (result.user) {
+          setLoading(false);
+        }
+      })
+      .catch((e) => {
+        setLoading(false);
+        toast.error(
+          e.message.includes("password") ? "Wrong password" : "User Not Found"
+        );
+      });
+  };
 
   return (
     <div className="flex items-center justify-center h-[85vh] dark:bg-slate-900">
+      <Toaster position="top-center" reverseOrder={false} />
+
       <div className="w-full md:w-1/3 p-5">
         <h2 className="text-3xl font-bold mb-8 text-center dark:text-white text-black">
           Login
@@ -40,7 +58,7 @@ export const Login = () => {
               <small>Or sign in with credentials</small>
             </div>
             <form onSubmit={handleSubmit(loginHandler)}>
-              <div className="relative w-full mb-3 ">
+              <div className="relative w-full mb-3">
                 <label
                   className="block uppercase  text-xs font-bold mb-2"
                   htmlFor="grid-password"
@@ -51,9 +69,19 @@ export const Login = () => {
                   type="email"
                   className="border-0 px-3 py-3 placeholder-gray-400 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                   placeholder="Email"
-                  name="email"
+                  id="email"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "Invalid email address",
+                    },
+                  })}
                   style={{ transition: "all .15s ease" }}
                 />
+                {errors.email && (
+                  <p className="text-red-500">{errors.email.message}</p>
+                )}
               </div>
 
               <div className="relative w-full mb-3">
@@ -67,9 +95,15 @@ export const Login = () => {
                   type={`${!showPassword ? "password" : "text"}`}
                   className="border-0 px-3 py-3 placeholder-gray-400 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                   placeholder="Password"
-                  name="password"
+                  id="password"
+                  {...register("password", {
+                    required: "Password is required",
+                  })}
                   style={{ transition: "all .15s ease" }}
                 />
+                {errors.password && (
+                  <p className="text-red-500">{errors.password.message}</p>
+                )}
                 <div
                   className="absolute top-9 right-2 text-xl cursor-pointer"
                   onClick={() => setShowPassword(!showPassword)}
@@ -95,7 +129,9 @@ export const Login = () => {
                 <input
                   type="submit"
                   value="SIGN IN"
-                  className="bg-primary text-white w-full p-2 font-semibold rounded"
+                  className={`${
+                    loading && "disabled cursor-not-allowed opacity-50"
+                  } bg-primary text-white w-full p-2 font-semibold rounded`}
                 />
               </div>
             </form>

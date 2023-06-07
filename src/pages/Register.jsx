@@ -40,6 +40,7 @@ export const Register = () => {
         setLoading(false);
       }
     } catch (error) {
+      setLoading(false);
       toast.error(error.message);
     }
   };
@@ -199,7 +200,7 @@ export const Register = () => {
             type="submit"
             className={`${
               loading && "disabled cursor-not-allowed opacity-50"
-            } first-letter:w-full col-span-2 bg-primary text-white cursor-pointer px-4 py-2 rounded hover:bg-secondary focus:outline-none`}
+            } w-full col-span-2 bg-primary text-white cursor-pointer px-4 py-2 rounded hover:bg-secondary focus:outline-none`}
             value={loading ? "Please Wait..." : "Register"}
           />
         </form>
