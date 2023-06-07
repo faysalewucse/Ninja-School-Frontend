@@ -135,13 +135,13 @@ export const Register = () => {
                 type="file"
                 id="photoUrl"
                 {...register("photoUrl", { required: "Photo URL is required" })}
-                className="absolute left-0 w-full"
+                className="absolute left-0 w-full opacity-0"
                 onChange={(e) => {
                   setImage(e.target.files[0].name);
                 }}
               />
               <span className="flex items-center w-fit gap-1 hover:bg-secondary justify-center bg-primary p-2 rounded text-white">
-                <MdFileUpload />
+                <MdFileUpload className="text-xl" />
                 Upload Photo
               </span>
               <span>{image && image}</span>
