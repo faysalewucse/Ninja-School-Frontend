@@ -60,7 +60,6 @@ export function AuthProvider({ children }) {
 
   // signin with google
   async function googleSignIn() {
-    setLoading(true);
     const googleAuthProvider = new GoogleAuthProvider();
     return signInWithPopup(auth, googleAuthProvider)
       .then((result) => {

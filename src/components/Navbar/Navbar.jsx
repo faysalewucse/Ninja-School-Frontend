@@ -8,9 +8,9 @@ import { MdOutlineWbSunny } from "react-icons/md";
 import { SlClose, SlMenu } from "react-icons/sl";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { HiMoon } from "react-icons/hi";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../contexts/ThemeContext";
 import { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import Button from "../shared/Button";
 
 export const Navbar = () => {
@@ -24,8 +24,9 @@ export const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
+  console.log(currentUser);
   return (
-    <div className="border-b-[1px] p-7 shadow dark:bg-slate-950">
+    <div className="border-b-[1px] p-7 shadow dark:bg-slate-950 dark:border-b-slate-800">
       <Container>
         <div className="flex items-center justify-between">
           <img className="w-16" src={isDark ? brandWhite : brand} alt="brand" />
@@ -95,11 +96,13 @@ export const Navbar = () => {
               {currentUser ? (
                 <div className="relative inline-block">
                   <button
-                    className="flex items-center justify-center rounded-full bg-gray-200 w-10 h-10 border-2 border-primary p-1"
+                    className="flex items-center justify-center rounded-full bg-gray-200 w-10 h-10 border-2 border-primary"
                     onClick={toggleDropdown}
                   >
                     <img
-                      src={avatar} // Replace with the path to your avatar image
+                      src={
+                        currentUser?.photoURL ? currentUser?.photoURL : avatar
+                      } // Replace with the path to your avatar image
                       alt="Avatar"
                       className={`rounded-full transition-transform object-cover ${
                         isOpen ? "scale-110" : "scale-100"
