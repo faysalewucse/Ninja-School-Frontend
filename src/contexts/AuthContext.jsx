@@ -36,7 +36,15 @@ export function AuthProvider({ children }) {
   }, []);
 
   //signup function
-  async function signup(email, password, username, photoURL) {
+  async function signup(
+    email,
+    password,
+    username,
+    photoURL,
+    address,
+    gender,
+    phoneNumber
+  ) {
     await createUserWithEmailAndPassword(auth, email, password);
 
     // updateProfile

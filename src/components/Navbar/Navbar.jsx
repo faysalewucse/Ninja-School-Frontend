@@ -144,9 +144,9 @@ export const Navbar = () => {
           </nav>
           <div onClick={() => setOpen(!open)} className="md:hidden text-2xl">
             {open ? (
-              <SlClose className="absolute right-6 top-9 text-3xl z-20" />
+              <SlClose className="dark:text-white absolute right-6 top-9 text-3xl z-20" />
             ) : (
-              <SlMenu className="text-black text-xl" />
+              <SlMenu className="dark:text-white text-black text-2xl" />
             )}
           </div>
         </div>

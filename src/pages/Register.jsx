@@ -4,10 +4,12 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { MdFileUpload } from "react-icons/md";
 import { useAuth } from "../contexts/AuthContext";
 import axios from "axios";
+import { Toaster, toast } from "react-hot-toast";
 
 export const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [image, setImage] = useState();
+  const [loading, setLoading] = useState(false);
   const { signup } = useAuth();
   const {
     register,
@@ -17,23 +19,34 @@ export const Register = () => {
   } = useForm();
 
   const registerHandler = async (data) => {
-    const { address, email, gender, name, password, phoneNumber } = data;
+    try {
+      const { address, email, gender, name, password, phoneNumber } = data;
 
-    const photo = data.photoUrl[0];
-    const formdata = new FormData();
-    formdata.append("image", photo);
-    const response = await axios.post(
-      `https://api.imgbb.com/1/upload?expiration=600&key=${
-        import.meta.env.VITE_IMAGE_UPLOAD_API
-      }`,
-      formdata
-    );
-    console.log(response.data);
-    // signup(email, password, name, address, gender, phoneNumber);
+      const photo = data.photoUrl[0];
+      const formdata = new FormData();
+      formdata.append("image", photo);
+
+      setLoading(true);
+
+      const response = await axios.post(
+        `https://api.imgbb.com/1/upload?expiration=600&key=${
+          import.meta.env.VITE_IMAGE_UPLOAD_API
+        }`,
+        formdata
+      );
+      if (response?.data?.status === 200) {
+        const photoURL = response.data.data.display_url;
+        signup(email, password, name, photoURL, address, gender, phoneNumber);
+        setLoading(false);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (
     <div className="dark:bg-gray-900 text-slate-700 dark:text-white min-h-[85vh] flex items-center justify-center">
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="p-5 lg:w-1/2">
         <h2 className="text-3xl font-bold mb-8 text-center">Registration</h2>
         <form
@@ -96,7 +109,7 @@ export const Register = () => {
               className="w-full px-4 py-2 rounded text-slate-700 focus:outline-none shadow"
             />
             <div
-              className="absolute top-10 right-2 text-xl cursor-pointer"
+              className="absolute top-10 right-2 text-xl cursor-pointer dark:text-black"
               onClick={() => setShowPassword(!showPassword)}
             >
               {!showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
@@ -184,8 +197,10 @@ export const Register = () => {
           </div>
           <input
             type="submit"
-            className="w-full col-span-2 bg-primary text-white px-4 py-2 rounded hover:bg-secondary focus:outline-none"
-            value={"Register"}
+            className={`${
+              loading && "disabled cursor-not-allowed opacity-50"
+            } first-letter:w-full col-span-2 bg-primary text-white cursor-pointer px-4 py-2 rounded hover:bg-secondary focus:outline-none`}
+            value={loading ? "Please Wait..." : "Register"}
           />
         </form>
       </div>
