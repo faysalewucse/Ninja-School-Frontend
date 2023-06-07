@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { MdFileUpload } from "react-icons/md";
+import { useAuth } from "../contexts/AuthContext";
+import axios from "axios";
 
 export const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [image, setImage] = useState();
+  const { signup } = useAuth();
   const {
     register,
     handleSubmit,
@@ -11,8 +16,20 @@ export const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const registerHandler = async (data) => {
+    const { address, email, gender, name, password, phoneNumber } = data;
+
+    const photo = data.photoUrl[0];
+    const formdata = new FormData();
+    formdata.append("image", photo);
+    const response = await axios.post(
+      `https://api.imgbb.com/1/upload?expiration=600&key=${
+        import.meta.env.VITE_IMAGE_UPLOAD_API
+      }`,
+      formdata
+    );
+    console.log(response.data);
+    // signup(email, password, name, address, gender, phoneNumber);
   };
 
   return (
@@ -20,8 +37,8 @@ export const Register = () => {
       <div className="p-5 lg:w-1/2">
         <h2 className="text-3xl font-bold mb-8 text-center">Registration</h2>
         <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="md:grid grid-cols-2 gap-2 bg-gray-200 dark:bg-gray-800 p-10 rounded shadow-lg"
+          onSubmit={handleSubmit(registerHandler)}
+          className="md:grid grid-cols-2 gap-x-6 bg-gray-200 dark:bg-gray-800 p-10 rounded shadow-lg"
         >
           <div className="mb-4">
             <label htmlFor="name" className="block mb-2">
@@ -31,7 +48,7 @@ export const Register = () => {
               type="text"
               id="name"
               {...register("name", { required: "Name is required" })}
-              className="w-full px-4 py-2 rounded border-gray-500 focus:outline-none shadow"
+              className="w-full px-4 py-2 rounded text-slate-700 focus:outline-none shadow"
             />
             {errors.name && (
               <p className="text-red-500">{errors.name.message}</p>
@@ -44,8 +61,14 @@ export const Register = () => {
             <input
               type="email"
               id="email"
-              {...register("email", { required: "Email is required" })}
-              className="w-full px-4 py-2 rounded border-gray-500 focus:outline-none shadow"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Invalid email address",
+                },
+              })}
+              className="w-full px-4 py-2 rounded text-slate-700 focus:outline-none shadow"
             />
             {errors.email && (
               <p className="text-red-500">{errors.email.message}</p>
@@ -70,7 +93,7 @@ export const Register = () => {
                     "Password must contain at least one capital letter and one special character",
                 },
               })}
-              className="w-full px-4 py-2 rounded border-gray-500 focus:outline-none shadow"
+              className="w-full px-4 py-2 rounded text-slate-700 focus:outline-none shadow"
             />
             <div
               className="absolute top-10 right-2 text-xl cursor-pointer"
@@ -96,22 +119,33 @@ export const Register = () => {
                   return password === value || "Passwords should match!";
                 },
               })}
-              className="w-full px-4 py-2 rounded border-gray-500 focus:outline-none shadow"
+              className="w-full px-4 py-2 rounded text-slate-700 focus:outline-none shadow"
             />
             {errors.confirmPassword && (
               <p className="text-red-500">{errors.confirmPassword.message}</p>
             )}
           </div>
-          <div className="mb-4 col-span-2">
-            <label htmlFor="photoUrl" className="block mb-2">
+          <div className="relative mb-4 col-span-2">
+            <label htmlFor="photoUrl" className="block mb-4">
               Photo <span className="text-primary">*</span>
             </label>
-            <input
-              type="file"
-              id="photoUrl"
-              {...register("photoUrl", { required: "Photo URL is required" })}
-              className="w-full py-2 rounded border-gray-500 focus:outline-none"
-            />
+            <div className="flex items-center gap-3">
+              <input
+                accept=".jpg, .png, .jpeg"
+                type="file"
+                id="photoUrl"
+                {...register("photoUrl", { required: "Photo URL is required" })}
+                className="absolute left-0 w-full"
+                onChange={(e) => {
+                  setImage(e.target.files[0].name);
+                }}
+              />
+              <span className="flex items-center w-fit gap-1 hover:bg-secondary justify-center bg-primary p-2 rounded text-white">
+                <MdFileUpload />
+                Upload Photo
+              </span>
+              <span>{image && image}</span>
+            </div>
           </div>
           <div className="mb-4">
             <label htmlFor="gender" className="block mb-2">
@@ -120,7 +154,7 @@ export const Register = () => {
             <select
               id="gender"
               {...register("gender")}
-              className="w-full px-4 py-2 rounded border-gray-500 focus:outline-none shadow"
+              className="w-full px-4 py-2 rounded text-slate-700 focus:outline-none shadow"
             >
               <option value="male">Male</option>
               <option value="female">Female</option>
@@ -135,7 +169,7 @@ export const Register = () => {
               type="number"
               id="phoneNumber"
               {...register("phoneNumber")}
-              className="w-full px-4 py-2 rounded border-gray-500 focus:outline-none shadow"
+              className="w-full px-4 py-2 rounded text-slate-700 focus:outline-none shadow"
             />
           </div>
           <div className="mb-4 col-span-2">
@@ -145,7 +179,7 @@ export const Register = () => {
             <textarea
               id="address"
               {...register("address")}
-              className="w-full px-4 py-2 rounded border-gray-500 focus:outline-none shadow"
+              className="w-full px-4 py-2 rounded text-slate-700 focus:outline-none shadow"
             ></textarea>
           </div>
           <input

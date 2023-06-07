@@ -5,3 +5,15 @@
 * {
   font-family: "Poppins", sans-serif;
 }
+
+input[type="file"] {
+  opacity: 0;
+}
+
+input[type="file"]::file-selector-button {
+  border: none;
+  background-color: #ff3607;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+}

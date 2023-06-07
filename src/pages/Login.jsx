@@ -21,7 +21,7 @@ export const Login = () => {
   return (
     <div className="flex items-center justify-center h-[85vh] dark:bg-slate-900">
       <div className="w-full md:w-1/4 p-5">
-        <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-100 border-0 text-slate-700 p-5">
+        <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-200 border-0 text-slate-700 p-5">
           <div className="rounded-t mb-0 px-6 py-6">
             <h6
               onClick={googleSignIn}

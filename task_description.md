@@ -22,25 +22,6 @@
 
    <br/>
 
-   > **Note:** Keep at least one social login
-
-   > **Note:** Do not enforce **forget password feature** and the **email verification method**, as it will inconvenience the examiner. If you want, you can add email verification/forget the password after receiving the assignment result.
-
-   <br/>
-
-   **Error for Registration system:**
-   On the Registration page, display errors when:
-
-   The password
-
-   - is less than 6 characters
-   - don't have a capital letter
-   - don't have a special character
-
-   <br/>
-
-   > **Note:** A user cannot submit empty email and password fields.
-
 5. **Homepage:**
 
    - **Top Slider Section -** Will have a relevant slider. Use relevant text, information, message, and picture. The design is entirely up to you.
