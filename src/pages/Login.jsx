@@ -2,9 +2,12 @@ import { FcGoogle } from "react-icons/fc";
 import { useAuth } from "../contexts/AuthContext";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useState } from "react";
 
 export const Login = () => {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
   const { googleSignIn } = useAuth();
   const {
     register,
@@ -58,12 +61,18 @@ export const Login = () => {
                   Password
                 </label>
                 <input
-                  type="password"
+                  type={`${!showPassword ? "password" : "text"}`}
                   className="border-0 px-3 py-3 placeholder-gray-400 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                   placeholder="Password"
                   name="password"
                   style={{ transition: "all .15s ease" }}
                 />
+                <div
+                  className="absolute top-9 right-2 text-xl cursor-pointer"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {!showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                </div>
               </div>
               <div>
                 <label className="inline-flex items-center cursor-pointer">

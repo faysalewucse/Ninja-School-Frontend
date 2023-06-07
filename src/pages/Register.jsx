@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 export const Register = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors },
   } = useForm();
 
@@ -14,7 +17,7 @@ export const Register = () => {
 
   return (
     <div className="dark:bg-gray-900 text-slate-700 dark:text-white min-h-[85vh] flex items-center justify-center">
-      <div className="p-5 md:w-1/3">
+      <div className="p-5 lg:w-1/2">
         <h2 className="text-3xl font-bold mb-8 text-center">Registration</h2>
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -48,16 +51,33 @@ export const Register = () => {
               <p className="text-red-500">{errors.email.message}</p>
             )}
           </div>
-          <div className="mb-4">
+          <div className="mb-4 relative">
             <label htmlFor="password" className="block mb-2">
               Password <span className="text-primary">*</span>
             </label>
             <input
-              type="password"
+              type={`${!showPassword ? "password" : "text"}`}
               id="password"
-              {...register("password", { required: "Password is required" })}
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters long",
+                },
+                pattern: {
+                  value: /^(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]+$/,
+                  message:
+                    "Password must contain at least one capital letter and one special character",
+                },
+              })}
               className="w-full px-4 py-2 rounded border-gray-500 focus:outline-none shadow"
             />
+            <div
+              className="absolute top-10 right-2 text-xl cursor-pointer"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {!showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+            </div>
             {errors.password && (
               <p className="text-red-500">{errors.password.message}</p>
             )}
@@ -71,8 +91,10 @@ export const Register = () => {
               id="confirmPassword"
               {...register("confirmPassword", {
                 required: "Confirm Password is required",
-                validate: (value) =>
-                  value === password || "Passwords do not match",
+                validate: (value) => {
+                  const { password } = getValues();
+                  return password === value || "Passwords should match!";
+                },
               })}
               className="w-full px-4 py-2 rounded border-gray-500 focus:outline-none shadow"
             />
@@ -87,7 +109,7 @@ export const Register = () => {
             <input
               type="file"
               id="photoUrl"
-              {...register("photoUrl")}
+              {...register("photoUrl", { required: "Photo URL is required" })}
               className="w-full py-2 rounded border-gray-500 focus:outline-none"
             />
           </div>
@@ -126,12 +148,11 @@ export const Register = () => {
               className="w-full px-4 py-2 rounded border-gray-500 focus:outline-none shadow"
             ></textarea>
           </div>
-          <button
+          <input
             type="submit"
             className="w-full col-span-2 bg-primary text-white px-4 py-2 rounded hover:bg-secondary focus:outline-none"
-          >
-            Register
-          </button>
+            value={"Register"}
+          />
         </form>
       </div>
     </div>

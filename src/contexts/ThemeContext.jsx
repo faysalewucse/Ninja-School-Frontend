@@ -7,7 +7,11 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider = ({ children }) => {
-  const [isDark, setDarkMode] = useState(false);
+  const [isDark, setDarkMode] = useState(true);
+
+  useEffect(() => {
+    document.documentElement.classList.add("dark");
+  }, []);
 
   const toggleDarkMode = () => {
     if (isDark) {

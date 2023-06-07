@@ -8,16 +8,6 @@
 
 4. **Registration & Login System:**
 
-   **Login Page:**
-   When a user clicks on the login button, they will be redirected to the login page having the following:
-
-   - Email
-   - Password **(This field can hide/unhide the password by clicking on an icon)**
-   - A link that will redirect to the registration page
-   - Keep at least one social login
-
-   <br/>
-
    **Registration Page:**
    The Registration page will have the Email/Password form having the following fields:
 
