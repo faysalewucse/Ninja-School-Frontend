@@ -1,3 +1,4 @@
+import axios from "axios";
 import PublicRoute from "../hooks/PublicRoute";
 import { Home } from "../pages/Home/Home";
 import { Login } from "../pages/Login";
@@ -7,6 +8,7 @@ export const userRouter = [
   {
     path: "/",
     element: <Home />,
+    loader: () => axios.get("http://localhost:5000/classes/popular"),
   },
   {
     path: "/login",
