@@ -11,7 +11,7 @@ import { HiMoon } from "react-icons/hi";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import Button from "../shared/Button";
+import ButtonOutline from "../shared/ButtonOutline";
 
 export const Navbar = () => {
   const { isDark, toggleDarkMode } = useTheme();
@@ -134,7 +134,7 @@ export const Navbar = () => {
                   </div>
                 </div>
               ) : (
-                <Button
+                <ButtonOutline
                   text={"Login"}
                   onClickHandler={() => navigate("/login")}
                 />

@@ -6,7 +6,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useTheme } from "../contexts/ThemeContext";
 
 export default function Footer() {
-  const { currentUser } = useAuth();
+  const { currentUser, logout } = useAuth();
   const { isDark } = useTheme();
   return (
     <footer className="dark:bg-slate-950 dark:border-gray-800 border-t-[1px] dark:text-white p-5 md:p-24 md:text-left text-center">
@@ -50,8 +50,8 @@ export default function Footer() {
               </Link>
             )}
             {currentUser && (
-              <Link className="hover:text-secondary" to="/addtoy">
-                Add Toy
+              <Link className="hover:text-secondary" onClick={() => logout()}>
+                Logout
               </Link>
             )}
           </ul>
