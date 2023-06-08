@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
+import axios from "axios";
 import "../firebase";
 import {
   createUserWithEmailAndPassword,
@@ -26,9 +27,23 @@ export function AuthProvider({ children }) {
   const [error, setError] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
 
+  // TODO: remove setLoading function
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
+
+      // TODO: update it to by storing access token to cookie
+      // get jwt token and save it to local storage
+      // TODO: change the URL
+      if (user) {
+        axios
+          .post("http://localhost:5000/jwt", { email: user.email })
+          .then((response) => {
+            localStorage.setItem("access_token", response.data.token);
+          });
+      } else {
+        localStorage.removeItem("access_token");
+      }
       setLoading(false);
     });
 

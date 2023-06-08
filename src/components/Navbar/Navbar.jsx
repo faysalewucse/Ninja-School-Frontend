@@ -24,7 +24,6 @@ export const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
-  console.log(currentUser);
   return (
     <div className="border-b-[1px] p-7 shadow dark:bg-slate-950 dark:border-b-slate-800">
       <Container>

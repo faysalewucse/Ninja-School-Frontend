@@ -1,27 +1,3 @@
-2.  Make sure to keep the navbar and footer **on all the pages except on the 404 page**. Create a good, stylish, and meaningful footer. (including website logo or name or both, copyright, some contact information, Address etc.)
-
-<br/>
-
-3. Your website should have a navbar with the **Website logo or Website name, Home, Instructors, Classes, Dashboard** and **User profile picture**\. The **user profile picture** and **Dashboard** on the navbar are conditional\. If the user is signed in, the navbar will show the profile picture; otherwise, it will show the **Login button**\.
-
-<br/>
-
-4. **Registration & Login System:**
-
-   **Registration Page:**
-   The Registration page will have the Email/Password form having the following fields:
-
-   - Name
-   - Email
-   - Password
-   - Confirm Password
-   - Photo URL
-   - (optional) Gender
-   - (optional) Phone Number
-   - (optional) Address
-
-   <br/>
-
 5. **Homepage:**
 
    - **Top Slider Section -** Will have a relevant slider. Use relevant text, information, message, and picture. The design is entirely up to you.
