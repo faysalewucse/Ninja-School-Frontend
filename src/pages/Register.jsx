@@ -5,6 +5,7 @@ import { MdFileUpload } from "react-icons/md";
 import { useAuth } from "../contexts/AuthContext";
 import axios from "axios";
 import { Toaster, toast } from "react-hot-toast";
+import Swal from "sweetalert2";
 
 export const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -37,7 +38,26 @@ export const Register = () => {
       if (response?.data?.status === 200) {
         const photoURL = response.data.data.display_url;
         signup(email, password, name, photoURL, address, gender, phoneNumber);
-        setLoading(false);
+
+        axios
+          .post("http://localhost:5000/user", {
+            email,
+            name,
+            photoURL,
+            address,
+            gender,
+            phoneNumber,
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              Swal.fire(
+                "Welcome!",
+                "You registered to Ninja School Successfully!",
+                "success"
+              );
+              setLoading(false);
+            }
+          });
       }
     } catch (error) {
       setLoading(false);
