@@ -17,7 +17,7 @@ export const Instructors = () => {
             "Meet our expert martial arts instructors who are committed to helping you excel in your training."
           }
         />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-10 md:mt-20">
           {instructors.map((instructor) => (
             <InstructorCard key={instructor._id} instructor={instructor} />
           ))}
