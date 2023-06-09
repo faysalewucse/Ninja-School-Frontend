@@ -4,6 +4,7 @@ import { SectionHeader } from "../../components/shared/SectionHeader";
 import axios from "axios";
 import { PopularInstructorCard } from "../../components/cards/PopularInstructorCard";
 
+// TODO: Add animation
 export const PopularInstructors = () => {
   const [popularInstructors, setPopularInstructors] = useState([]);
   useEffect(() => {
