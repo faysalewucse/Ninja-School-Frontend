@@ -37,16 +37,17 @@ export const Register = () => {
       );
       if (response?.data?.status === 200) {
         const photoURL = response.data.data.display_url;
-        signup(email, password, name, photoURL, address, gender, phoneNumber);
+        signup(email, password, name, photoURL);
 
         axios
-          .post("http://localhost:5000/user", {
+          .post(`${import.meta.env.VITE_BASE_API_URL}/user`, {
             email,
             name,
             photoURL,
             address,
             gender,
             phoneNumber,
+            role: "student",
           })
           .then((response) => {
             if (response.status === 200) {

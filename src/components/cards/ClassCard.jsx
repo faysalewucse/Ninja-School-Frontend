@@ -1,16 +1,11 @@
-import React from "react";
 import Button from "../shared/Button";
+import { useAuth } from "../../contexts/AuthContext";
 
 export const ClassCard = ({ classInfo }) => {
-  const {
-    name,
-    instructorId,
-    instructorName,
-    totalSeats,
-    availableSeats,
-    price,
-    image,
-  } = classInfo;
+  const { currentUser } = useAuth();
+  const { name, instructorName, totalSeats, availableSeats, price, image } =
+    classInfo;
+
   return (
     <div
       className={`md:flex gap-5 border border-primary p-5 border-dashed rounded-2xl ${
@@ -34,7 +29,10 @@ export const ClassCard = ({ classInfo }) => {
         <Button
           text={`${availableSeats ? "Select" : "No Seats Available"}`}
           style={`${
-            !availableSeats && "cursor-not-allowed opacity-50"
+            (!availableSeats ||
+              currentUser?.role === "admin" ||
+              currentUser?.role === "instructor") &&
+            "cursor-not-allowed opacity-50"
           } w-fit mx-auto md:mx-0 mt-2 md:mt-0`}
         />
       </div>

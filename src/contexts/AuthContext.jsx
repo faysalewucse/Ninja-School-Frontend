@@ -29,15 +29,26 @@ export function AuthProvider({ children }) {
 
   // TODO: remove setLoading function
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      // getUsersData from Database
+      if (user) {
+        await axios
+          .get(`${import.meta.env.VITE_BASE_API_URL}/users/${user.email}`)
+          .then(({ data: user }) => {
+            setCurrentUser(user);
+          });
+      } else {
+        setCurrentUser(user);
+      }
 
       // TODO: update it to by storing access token to cookie
       // get jwt token and save it to local storage
       // TODO: change the URL
       if (user) {
         axios
-          .post("http://localhost:5000/jwt", { email: user.email })
+          .post(`${import.meta.env.VITE_BASE_API_URL}/jwt`, {
+            email: user.email,
+          })
           .then((response) => {
             localStorage.setItem("access_token", response.data.token);
           });
@@ -51,21 +62,14 @@ export function AuthProvider({ children }) {
   }, []);
 
   //signup function
-  async function signup(
-    email,
-    password,
-    username,
-    photoURL,
-    address,
-    gender,
-    phoneNumber
-  ) {
+  async function signup(email, password, username, photoURL) {
     await createUserWithEmailAndPassword(auth, email, password);
 
     // updateProfile
     await updateUserProfile(username, photoURL);
 
     const user = auth.currentUser;
+
     setCurrentUser({ ...user });
   }
 

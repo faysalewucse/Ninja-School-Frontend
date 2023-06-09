@@ -24,7 +24,7 @@ export const Banner = () => {
       modules={[Autoplay, Navigation]}
     >
       <SwiperSlide>
-        <div className="h-[90vh] p-10 md:p-20 dark:bg-slate-900 dark:text-white text-slate-700">
+        <div className="min-h-[90vh] p-10 md:p-20 dark:bg-slate-900 dark:text-white text-slate-700">
           <Container>
             <div className="flex md:flex-row flex-col justify-center gap-5 items-center">
               <div className="text-center md:text-start">

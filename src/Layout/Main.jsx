@@ -7,7 +7,9 @@ export const Main = () => {
   return (
     <div>
       <Navbar />
-      <Outlet />
+      <div className="min-h-[90vh] bg-slate-900">
+        <Outlet />
+      </div>
       <Footer />
     </div>
   );
