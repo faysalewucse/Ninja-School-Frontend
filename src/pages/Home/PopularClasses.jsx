@@ -3,6 +3,7 @@ import { Container } from "../../components/Container";
 import { SectionHeader } from "../../components/shared/SectionHeader";
 import { PopularClassCard } from "../../components/cards/PopularClassCard";
 
+// TODO: Add Animation
 export const PopularClasses = ({ popularClasses }) => {
   return (
     <div className="dark:bg-slate-800 bg-gray-100 dark:text-white md:p-20 p-5">
