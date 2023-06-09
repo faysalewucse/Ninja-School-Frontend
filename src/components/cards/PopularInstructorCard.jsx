@@ -28,8 +28,11 @@ export const PopularInstructorCard = ({
           {totalStudents} Student{totalStudents > 1 && "s"}
         </p>
         <div className="hidden md:block">
-          {cls?.map((className) => (
-            <p className="border py-1 px-2 rounded text-center my-2 border-primary">
+          {cls?.map((className, index) => (
+            <p
+              key={index}
+              className="border py-1 px-2 rounded text-center my-2 border-primary"
+            >
               {className}
             </p>
           ))}
