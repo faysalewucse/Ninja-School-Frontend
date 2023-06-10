@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { SpinnerText } from "../../components/shared/SpinnerText";
 
-export const CheckOutForm = ({ closeModal, payFor, bookedClass }) => {
+export const CheckOutForm = ({ closeModal, payFor, refetch }) => {
   const stripe = useStripe();
   const { currentUser } = useAuth();
   const elements = useElements();
@@ -79,9 +79,26 @@ export const CheckOutForm = ({ closeModal, payFor, bookedClass }) => {
 
       axiosSecure.post("/payment", paymentInfo).then((response) => {
         if (response.status === 200) {
-          setProcessing(false);
-          closeModal();
-          Swal.fire("Great!", "Your Payment is Successfull", "success");
+          axiosSecure
+            .put(`/classes/${payFor?.classInfo[0]._id}`)
+            .then((response) => {
+              if (response.status === 200) {
+                axiosSecure
+                  .delete(`/bookedClasses/${payFor?._id}`)
+                  .then((response) => {
+                    if (response.status === 200) {
+                      setProcessing(false);
+                      refetch();
+                      closeModal();
+                      Swal.fire(
+                        "Great!",
+                        "Your Payment is Successfull",
+                        "success"
+                      );
+                    }
+                  });
+              }
+            });
         }
       });
     }
