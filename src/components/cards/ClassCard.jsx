@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 
-export const ClassCard = ({ classInfo, bookedClasses }) => {
+export const ClassCard = ({ classInfo, bookedClasses, refetch }) => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -38,6 +38,7 @@ export const ClassCard = ({ classInfo, bookedClasses }) => {
       })
       .then((response) => {
         setLoading(false);
+        refetch();
         if (response.status === 200) {
           Swal.fire("Great", "You booked the class!", "success");
         }

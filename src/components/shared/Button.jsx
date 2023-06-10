@@ -8,7 +8,7 @@ export default function Button({ loading, text, style, onClickHandler }) {
     >
       <div className="flex items-center justify-center text-xl">
         {loading ? (
-          <span className="border h-6 w-6 border-white animate-spin rounded-full"></span>
+          <span className="border h-6 w-6 border-primary animate-spin rounded-full"></span>
         ) : (
           <span>{text}</span>
         )}

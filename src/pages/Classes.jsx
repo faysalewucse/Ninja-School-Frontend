@@ -14,6 +14,7 @@ export const Classes = () => {
   const {
     isLoading,
     isError,
+    refetch,
     data: bookedClasses,
     error,
   } = useQuery({
@@ -39,6 +40,7 @@ export const Classes = () => {
               key={classInfo._id}
               classInfo={classInfo}
               bookedClasses={bookedClasses}
+              refetch={refetch}
             />
           ))}
         </div>
