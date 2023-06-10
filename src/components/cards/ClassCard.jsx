@@ -85,7 +85,7 @@ export const ClassCard = ({ classInfo, bookedClasses, refetch }) => {
               currentUser?.role === "admin" ||
               currentUser?.role === "instructor") &&
             "cursor-not-allowed opacity-50"
-          } w-fit mx-auto md:mx-0 mt-2 md:mt-0`}
+          } w-11/12 mx-auto md:mx-0 mt-2 md:mt-0`}
         />
       </div>
     </div>

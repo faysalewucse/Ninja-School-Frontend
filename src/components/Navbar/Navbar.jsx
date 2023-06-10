@@ -90,7 +90,7 @@ export const Navbar = () => {
                         currentUser?.photoURL ? currentUser?.photoURL : avatar
                       } // Replace with the path to your avatar image
                       alt="Avatar"
-                      className={`rounded-full transition-transform object-cover ${
+                      className={`w-9 h-9 rounded-full transition-transform object-cover ${
                         isOpen ? "scale-110" : "scale-100"
                       }`}
                     />
