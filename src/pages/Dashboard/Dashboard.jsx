@@ -1,3 +1,7 @@
 export const Dashboard = () => {
-  return <div>Hi</div>;
+  return (
+    <div>
+      <div></div>
+    </div>
+  );
 };

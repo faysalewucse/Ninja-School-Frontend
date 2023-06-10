@@ -7,7 +7,7 @@ export const DashboardLayout = () => {
   return (
     <div className="lg:flex hidden">
       <Sidebar />
-      <div>
+      <div className="flex-grow">
         <Navbar />
         <Outlet />
       </div>

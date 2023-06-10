@@ -6,6 +6,7 @@ import { ClassCard } from "../components/cards/ClassCard";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
+import HashLoader from "react-spinners/HashLoader";
 
 export const Classes = () => {
   const { data: classes } = useLoaderData();
@@ -13,7 +14,6 @@ export const Classes = () => {
 
   const {
     isLoading,
-    isError,
     refetch,
     data: bookedClasses,
     error,
@@ -32,19 +32,31 @@ export const Classes = () => {
 
   return (
     <div className="dark:bg-slate-900 dark:text-white text-slate-800 p-5 md:p-20">
-      <Container>
-        <SectionHeader title={"Our Classes"} />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-10 md:mt-20">
-          {classes.map((classInfo) => (
-            <ClassCard
-              key={classInfo._id}
-              classInfo={classInfo}
-              bookedClasses={bookedClasses}
-              refetch={refetch}
-            />
-          ))}
+      {!isLoading ? (
+        <Container>
+          <SectionHeader title={"Our Classes"} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-10 md:mt-20">
+            {classes.map((classInfo) => (
+              <ClassCard
+                key={classInfo._id}
+                classInfo={classInfo}
+                bookedClasses={bookedClasses}
+                refetch={refetch}
+              />
+            ))}
+          </div>
+        </Container>
+      ) : (
+        <div className="flex items-center justify-center min-h-[60vh]">
+          <HashLoader
+            color={"#FF3607"}
+            loading={isLoading}
+            size={60}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
         </div>
-      </Container>
+      )}
     </div>
   );
 };
