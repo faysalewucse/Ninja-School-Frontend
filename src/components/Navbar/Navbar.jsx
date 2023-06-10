@@ -78,19 +78,6 @@ export const Navbar = () => {
                 )}
               </div>
 
-              {/* Cart */}
-              {currentUser && (
-                <div className="relative">
-                  <AiOutlineShoppingCart
-                    onClick={() => navigate("/cart")}
-                    className="text-3xl cursor-pointer dark:text-white"
-                  />
-                  <span className="absolute -right-3 -top-3 font-bold text-sm w-6 h-6 rounded-full flex items-center justify-center dark:bg-white bg-black text-white dark:text-black">
-                    21
-                  </span>
-                </div>
-              )}
-
               {/* Dropdown Avatar */}
               {currentUser ? (
                 <div className="relative inline-block">

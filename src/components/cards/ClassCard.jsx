@@ -1,10 +1,52 @@
 import Button from "../shared/Button";
+import Swal from "sweetalert2";
 import { useAuth } from "../../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
 
-export const ClassCard = ({ classInfo }) => {
+export const ClassCard = ({ classInfo, bookedClasses }) => {
   const { currentUser } = useAuth();
-  const { name, instructorName, totalSeats, availableSeats, price, image } =
-    classInfo;
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  const {
+    _id,
+    name,
+    instructorName,
+    totalSeats,
+    availableSeats,
+    price,
+    image,
+  } = classInfo;
+
+  const selectClassHandler = (classId) => {
+    if (!currentUser) {
+      return Swal.fire({
+        title: "For selecting this class you have to login first.",
+        confirmButtonColor: "#FF3607",
+        confirmButtonText: "Login Now",
+      }).then((result) => {
+        if (result.isConfirmed) navigate("/login");
+      });
+    }
+    setLoading(true);
+    axios
+      .post(`${import.meta.env.VITE_BASE_API_URL}/bookedClass`, {
+        classId,
+        studentEmail: currentUser.email,
+      })
+      .then((response) => {
+        setLoading(false);
+        if (response.status === 200) {
+          Swal.fire("Great", "You booked the class!", "success");
+        }
+      });
+  };
+
+  const alreadyBooked = () => {
+    return bookedClasses?.some((bookedClass) => bookedClass.classId === _id);
+  };
 
   return (
     <div
@@ -27,9 +69,18 @@ export const ClassCard = ({ classInfo }) => {
         </div>
 
         <Button
-          text={`${availableSeats ? "Select" : "No Seats Available"}`}
+          loading={loading}
+          onClickHandler={() => selectClassHandler(_id)}
+          text={`${
+            alreadyBooked()
+              ? "Already Selected"
+              : availableSeats
+              ? "Select"
+              : "No Seats Available"
+          }`}
           style={`${
-            (!availableSeats ||
+            (alreadyBooked() ||
+              !availableSeats ||
               currentUser?.role === "admin" ||
               currentUser?.role === "instructor") &&
             "cursor-not-allowed opacity-50"

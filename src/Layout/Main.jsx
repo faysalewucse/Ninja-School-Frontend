@@ -7,7 +7,7 @@ export const Main = () => {
   return (
     <div>
       <Navbar />
-      <div className="min-h-[90vh] bg-slate-900">
+      <div className="min-h-[90vh] dark:bg-slate-900">
         <Outlet />
       </div>
       <Footer />
