@@ -5,11 +5,8 @@ import axios from "axios";
 
 export const Dashboard = () => {
   const { currentUser } = useAuth();
-  const {
-    isLoading,
-    refetch,
-    data: bookedClasses,
-  } = useQuery({
+
+  const { data: bookedClasses } = useQuery({
     queryKey: ["bookedClasses"],
     queryFn: async () => {
       const { data } = await axios.get(
@@ -22,7 +19,7 @@ export const Dashboard = () => {
   });
 
   return (
-    <div className="dark:bg-slate-900">
+    <div className="dark:bg-slate-900 min-h-[90vh]">
       <Container>
         <div className="grid grid-cols-4 p-12">
           <div className="bg-gradient-to-bl shadow-xl from-slate-700 to-primary bg-opacity-80 px-5 py-8 text-center text-white rounded-xl">

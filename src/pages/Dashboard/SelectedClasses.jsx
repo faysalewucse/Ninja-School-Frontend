@@ -1,15 +1,44 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import HashLoader from "react-spinners/HashLoader";
 import { Container } from "../../components/Container";
 import { SectionHeader } from "../../components/shared/SectionHeader";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
+import { Modal, Button, Text } from "@nextui-org/react";
+import {
+  CardElement,
+  Elements,
+  useElements,
+  useStripe,
+} from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import { BsCreditCard, BsTrash } from "react-icons/bs";
 import Swal from "sweetalert2";
+import { CheckOutForm } from "./CheckOutForm";
+
+const stripePromise = loadStripe(`${import.meta.env.VITE_STRIPES_PK}`);
 
 export const SelectedClasses = () => {
   const { currentUser } = useAuth();
+  const [visible, setVisible] = useState(false);
+  const [payFor, setPayFor] = useState();
+
+  const paymentHandler = (bookedClass) => {
+    console.log(bookedClass);
+    setPayFor(bookedClass);
+    setVisible(true);
+  };
+
+  const closeModal = () => {
+    setPayFor();
+    setVisible(false);
+  };
+
+  const [paymentError, setPaymentError] = useState("");
+  // const stripe = useStripe();
+  // const elements = useElements();
+
   const {
     isLoading,
     refetch,
@@ -38,6 +67,20 @@ export const SelectedClasses = () => {
           Swal.fire("Great", "Class has been deleted!", "success");
         }
       });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    // if (!stripe || !elements) {
+    //   return;
+    // }
+
+    // // Handle payment logic using the Stripe API
+
+    // // On successful payment
+    // closeModal();
+    // Swal.fire("Great", "Payment successful!", "success");
   };
 
   return (
@@ -86,7 +129,10 @@ export const SelectedClasses = () => {
                     <td>{price}</td>
                     <td>
                       <div className="flex space-x-4 justify-center">
-                        <button className="dark:text-green-300 text-green-600 hover:text-green-700 dark:hover:text-green-400 hover:scale-105 transition-all duration-150">
+                        <button
+                          onClick={() => paymentHandler(bookedClass)}
+                          className="dark:text-green-300 text-green-600 hover:text-green-700 dark:hover:text-green-400 hover:scale-105 transition-all duration-150"
+                        >
                           <BsCreditCard className="inline-block w-5 h-5" />
                           <span className="ml-1">Pay Now</span>
                         </button>
@@ -116,6 +162,27 @@ export const SelectedClasses = () => {
           />
         </div>
       )}
+      <Modal
+        width="600px"
+        closeButton
+        aria-labelledby="modal-title"
+        open={visible}
+        onClose={closeModal}
+      >
+        <Modal.Header>
+          <Text id="modal-title" size={18}>
+            Payment for
+            <Text b size={18}>
+              {" " + payFor?.classInfo[0].name}
+            </Text>
+          </Text>
+        </Modal.Header>
+        <Modal.Body>
+          <Elements stripe={stripePromise}>
+            <CheckOutForm closeModal={closeModal} />
+          </Elements>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
