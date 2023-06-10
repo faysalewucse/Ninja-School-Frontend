@@ -1,30 +1,37 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useEffect, useState } from "react";
+import { useAuth } from "../../contexts/AuthContext";
+import { SpinnerText } from "../../components/shared/SpinnerText";
 
-export const CheckOutForm = ({ closeModal }) => {
+export const CheckOutForm = ({ closeModal, payFor, bookedClass }) => {
   const stripe = useStripe();
+  const { currentUser } = useAuth();
   const elements = useElements();
+  const [axiosSecure] = useAxiosSecure();
+  const [clientSecret, setClientSecret] = useState();
+  const [processing, setProcessing] = useState(false);
+  const [transactionId, setTransactionId] = useState();
+
+  useEffect(() => {
+    axiosSecure
+      .post("/create-payment-intent", { price: payFor?.classInfo[0].price })
+      .then(({ data }) => {
+        console.log(data.clientSecret);
+        setClientSecret(data.clientSecret);
+      });
+  }, []);
 
   const handleSubmit = async (event) => {
-    // Block native form submission.
     event.preventDefault();
 
-    if (!stripe || !elements) {
-      // Stripe.js has not loaded yet. Make sure to disable
-      // form submission until Stripe.js has loaded.
-      return;
-    }
+    if (!stripe || !elements) return;
 
-    // Get a reference to a mounted CardElement. Elements knows how
-    // to find your CardElement because there can only ever be one of
-    // each type of element.
     const card = elements.getElement(CardElement);
 
-    if (card == null) {
-      return;
-    }
+    if (card == null) return;
 
-    // Use your card Element with other Stripe.js APIs
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card,
@@ -39,6 +46,44 @@ export const CheckOutForm = ({ closeModal }) => {
       });
     } else {
       console.log("[PaymentMethod]", paymentMethod);
+    }
+
+    setProcessing(true);
+    const { paymentIntent, error: confirmError } =
+      await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            name: currentUser?.displayName || "anonymous",
+            email: currentUser?.email || "unknown",
+          },
+        },
+      });
+
+    if (confirmError) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: confirmError.message,
+      });
+    }
+
+    if (paymentIntent.status === "succeeded") {
+      setTransactionId(paymentIntent.id);
+      const paymentInfo = {
+        userEmail: currentUser?.email,
+        transactionId: paymentIntent.id,
+        price: payFor?.classInfo[0].price,
+        class: payFor?.classInfo[0]._id,
+      };
+
+      axiosSecure.post("/payment", paymentInfo).then((response) => {
+        if (response.status === 200) {
+          setProcessing(false);
+          closeModal();
+          Swal.fire("Great!", "Your Payment is Successfull", "success");
+        }
+      });
     }
   };
 
@@ -63,11 +108,11 @@ export const CheckOutForm = ({ closeModal }) => {
       <button
         className={`${
           !stripe && "opacity-40 cursor-not-allowed"
-        } bg-green-400 font-semibold py-2 px-6 rounded-xl w-full mt-10`}
+        } bg-green-500 text-white font-semibold py-2 px-6 rounded-xl w-full mt-10`}
         type="submit"
-        disabled={!stripe}
+        disabled={!stripe || !clientSecret || processing}
       >
-        Pay Now
+        <SpinnerText text={"Pay Now"} loading={processing} />
       </button>
     </form>
   );

@@ -1,6 +1,6 @@
-import PrivateRoute from "../hooks/PrivateRoute";
 import { Dashboard } from "../pages/Dashboard/Dashboard";
 import { SelectedClasses } from "../pages/Dashboard/SelectedClasses";
+import PrivateRoute from "./PrivateRoute";
 
 export const dashboardRouter = [
   {

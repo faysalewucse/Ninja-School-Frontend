@@ -56,7 +56,6 @@ export const SelectedClasses = () => {
   });
 
   const deleteClassHandler = async (bookedClassId) => {
-    console.log(bookedClassId);
     await axios
       .delete(
         `${import.meta.env.VITE_BASE_API_URL}/bookedClasses/${bookedClassId}`
@@ -67,20 +66,6 @@ export const SelectedClasses = () => {
           Swal.fire("Great", "Class has been deleted!", "success");
         }
       });
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    // if (!stripe || !elements) {
-    //   return;
-    // }
-
-    // // Handle payment logic using the Stripe API
-
-    // // On successful payment
-    // closeModal();
-    // Swal.fire("Great", "Payment successful!", "success");
   };
 
   return (
@@ -179,7 +164,7 @@ export const SelectedClasses = () => {
         </Modal.Header>
         <Modal.Body>
           <Elements stripe={stripePromise}>
-            <CheckOutForm closeModal={closeModal} />
+            <CheckOutForm closeModal={closeModal} payFor={payFor} />
           </Elements>
         </Modal.Body>
       </Modal>

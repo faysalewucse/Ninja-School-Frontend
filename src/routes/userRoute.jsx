@@ -1,5 +1,5 @@
 import axios from "axios";
-import PublicRoute from "../hooks/PublicRoute";
+import PublicRoute from "./PublicRoute";
 import { Home } from "../pages/Home/Home";
 import { Login } from "../pages/Login";
 import { Register } from "../pages/Register";
