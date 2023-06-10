@@ -6,6 +6,7 @@ import { SectionHeader } from "../../components/shared/SectionHeader";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 import { BsCreditCard, BsTrash } from "react-icons/bs";
+import Swal from "sweetalert2";
 
 export const SelectedClasses = () => {
   const { currentUser } = useAuth();
@@ -25,21 +26,25 @@ export const SelectedClasses = () => {
     },
   });
 
+  const deleteClassHandler = async (bookedClassId) => {
+    console.log(bookedClassId);
+    await axios
+      .delete(
+        `${import.meta.env.VITE_BASE_API_URL}/bookedClasses/${bookedClassId}`
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          refetch();
+          Swal.fire("Great", "Class has been deleted!", "success");
+        }
+      });
+  };
+
   return (
     <div className="dark:bg-slate-900 min-h-[90vh] dark:text-white p-10 text-slate-800">
       {!isLoading ? (
         <Container>
           <SectionHeader title={"My Classes"} />
-
-          {/* {bookedClasses.map((bookedClass) => (
-              <ClassCard
-                key={bookedClass._id}
-                classInfo={bookedClass.classInfo[0]}
-                bookedClasses={bookedClasses}
-                refetch={refetch}
-              />
-            ))} */}
-
           <table className="w-full bg-transparent border-collapse my-10 text-center">
             <thead className="text-center dark:bg-gray-200 text-slate-800">
               <tr className="border-b dark:border-gray-700">
@@ -53,7 +58,7 @@ export const SelectedClasses = () => {
               </tr>
             </thead>
             <tbody>
-              {bookedClasses.map(({ classInfo }, index) => {
+              {bookedClasses.map((bookedClass) => {
                 const {
                   name,
                   instructorName,
@@ -61,9 +66,12 @@ export const SelectedClasses = () => {
                   availableSeats,
                   price,
                   image,
-                } = classInfo[0];
+                } = bookedClass.classInfo[0];
                 return (
-                  <tr key={index} className="border-b dark:border-gray-700">
+                  <tr
+                    key={bookedClass._id}
+                    className="border-b dark:border-gray-700"
+                  >
                     <td className="py-4">
                       <img
                         src={image}
@@ -82,7 +90,10 @@ export const SelectedClasses = () => {
                           <BsCreditCard className="inline-block w-5 h-5" />
                           <span className="ml-1">Pay Now</span>
                         </button>
-                        <button className="text-red-400 hover:text-red-500 hover:scale-105 transition-all duration-150">
+                        <button
+                          onClick={() => deleteClassHandler(bookedClass._id)}
+                          className="text-red-400 hover:text-red-500 hover:scale-105 transition-all duration-150"
+                        >
                           <BsTrash className="inline-block w-5 h-5" />
                           <span className="ml-1">Delete</span>
                         </button>
