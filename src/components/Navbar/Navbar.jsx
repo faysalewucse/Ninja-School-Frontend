@@ -27,7 +27,12 @@ export const Navbar = () => {
     <div className="border-b-[1px] p-7 shadow dark:bg-slate-950 dark:border-b-slate-800">
       <Container>
         <div className="flex items-center justify-between">
-          <img className="w-16" src={isDark ? brandWhite : brand} alt="brand" />
+          <img
+            onClick={() => navigate("/")}
+            className="w-16 cursor-pointer"
+            src={isDark ? brandWhite : brand}
+            alt="brand"
+          />
           <nav
             className={`flex flex-col md:flex-row md:relative absolute ${
               open ? "top-5 bg-white dark:bg-black" : "-top-full"

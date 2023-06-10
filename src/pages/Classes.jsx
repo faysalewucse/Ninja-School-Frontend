@@ -16,7 +16,6 @@ export const Classes = () => {
     isLoading,
     refetch,
     data: bookedClasses,
-    error,
   } = useQuery({
     queryKey: ["bookedClasses"],
     queryFn: async () => {

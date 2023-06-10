@@ -22,12 +22,12 @@ export const Sidebar = () => {
   const menuItems = [
     {
       route: "Dashboard",
-      path: "/",
+      path: "/dashboard",
       icon: <MdSpaceDashboard />,
     },
     {
       route: "Selected Classes",
-      path: "/selectedClasses",
+      path: "selectedClasses",
       icon: <BiSelectMultiple />,
     },
   ];
@@ -49,15 +49,16 @@ export const Sidebar = () => {
   const { currentUser } = useAuth();
 
   return (
-    <div className="min-h-screen dark:bg-slate-900 w-80 bg-white dark:text-white dark:shadow-none dark:border-none shadow-lg border-r-[1px]">
+    <div className="min-h-screen hidden md:block dark:bg-slate-950 w-80 bg-white dark:text-white dark:shadow-none dark:border-none shadow-lg border-r-[1px]">
       {/* First Section */}
       <div className="p-10">
         <h1 className="font-bold text-2xl text-center">Ninja School</h1>
         <h1 className="mt-10 mb-5">Menu</h1>
         <ul className="flex flex-col gap-7">
-          {menuItems.map((item) => {
+          {menuItems.map((item, index) => {
             return (
               <NavLink
+                key={index}
                 to={item.path}
                 className={({ isActive }) =>
                   isActive
@@ -76,9 +77,10 @@ export const Sidebar = () => {
       {/* Third Section */}
       <div className="p-10">
         <ul className="flex flex-col gap-8">
-          {menuItems2.map((item) => {
+          {menuItems2.map((item, index) => {
             return (
               <NavLink
+                key={index}
                 to={item.path}
                 className={({ isActive }) =>
                   isActive

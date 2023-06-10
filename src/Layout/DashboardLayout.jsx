@@ -2,6 +2,7 @@ import React from "react";
 import { Sidebar } from "../pages/Dashboard/Sidebar/Sidebar";
 import { Navbar } from "../components/Navbar/Navbar";
 import { Outlet } from "react-router-dom";
+import Footer from "../components/Footer";
 
 export const DashboardLayout = () => {
   return (
@@ -10,6 +11,7 @@ export const DashboardLayout = () => {
       <div className="flex-grow">
         <Navbar />
         <Outlet />
+        <Footer />
       </div>
     </div>
   );
