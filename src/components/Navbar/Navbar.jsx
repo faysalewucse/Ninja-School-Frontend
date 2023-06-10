@@ -6,7 +6,6 @@ import { dropdownItems, navItems } from "./navItems";
 import { Container } from "../Container";
 import { MdOutlineWbSunny } from "react-icons/md";
 import { SlClose, SlMenu } from "react-icons/sl";
-import { AiOutlineShoppingCart } from "react-icons/ai";
 import { HiMoon } from "react-icons/hi";
 import { useTheme } from "../../contexts/ThemeContext";
 import { useState } from "react";
