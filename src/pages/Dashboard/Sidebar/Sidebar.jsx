@@ -1,7 +1,11 @@
-import { MdSpaceDashboard } from "react-icons/md";
+import {
+  MdClass,
+  MdOutlineFlightClass,
+  MdSpaceDashboard,
+} from "react-icons/md";
 import { AiOutlineSetting } from "react-icons/ai";
 import { BiSelectMultiple, BiHelpCircle } from "react-icons/bi";
-import { GiNinjaArmor, GiNinjaStar } from "react-icons/gi";
+import { GiNinjaArmor } from "react-icons/gi";
 import { NavLink } from "react-router-dom";
 import { BsCreditCard } from "react-icons/bs";
 import { useAuth } from "../../../contexts/AuthContext";
@@ -32,9 +36,15 @@ export const Sidebar = () => {
       role: "student",
     },
     {
-      route: "Add Student",
-      path: "addStudent",
-      icon: <GiNinjaStar />,
+      route: "Add Class",
+      path: "addClass",
+      icon: <MdOutlineFlightClass />,
+      role: "instructor",
+    },
+    {
+      route: "My Classes",
+      path: "classes",
+      icon: <MdClass />,
       role: "instructor",
     },
   ];

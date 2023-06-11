@@ -10,18 +10,18 @@ export const userRouter = [
   {
     path: "/",
     element: <Home />,
-    loader: () =>
-      axios.get(`${import.meta.env.VITE_BASE_API_URL}/classes/popular`),
   },
   {
     path: "/instructors",
     element: <Instructors />,
-    loader: () => axios.get(`${import.meta.env.VITE_BASE_API_URL}/instructors`),
+    loader: async () =>
+      await axios.get(`${import.meta.env.VITE_BASE_API_URL}/instructors`),
   },
   {
     path: "/classes",
     element: <Classes />,
-    loader: () => axios.get(`${import.meta.env.VITE_BASE_API_URL}/classes`),
+    loader: async () =>
+      await axios.get(`${import.meta.env.VITE_BASE_API_URL}/classes`),
   },
   {
     path: "/login",

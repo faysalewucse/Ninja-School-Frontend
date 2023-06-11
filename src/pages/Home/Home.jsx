@@ -7,13 +7,11 @@ import { Benefits } from "./Benefits";
 
 // TODO: Add Contact and Blog Sections
 export const Home = () => {
-  const { data: popularClasses } = useLoaderData();
-
   return (
     <div className="overflow-hidden">
       <>
         <Banner />
-        <PopularClasses popularClasses={popularClasses} />
+        <PopularClasses />
         <PopularInstructors />
         <Benefits />
       </>

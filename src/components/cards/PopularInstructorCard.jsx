@@ -7,7 +7,6 @@ export const PopularInstructorCard = ({
   totalStudents,
   index,
 }) => {
-  console.log(cls);
   return (
     <div
       className={`md:flex gap-16 items-center md:w-1/2 ${

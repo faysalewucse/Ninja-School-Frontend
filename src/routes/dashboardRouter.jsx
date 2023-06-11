@@ -1,3 +1,5 @@
+import { AddClass } from "../pages/Dashboard/AddClass";
+import { MyClasses } from "../pages/Dashboard/MyClasses";
 import { Dashboard } from "../pages/Dashboard/Dashboard";
 import { EnrolledClasses } from "../pages/Dashboard/EnrolledClasses";
 import { Payments } from "../pages/Dashboard/Payments";
@@ -24,5 +26,13 @@ export const dashboardRouter = [
   {
     path: "payments",
     element: <Payments />,
+  },
+  {
+    path: "addClass",
+    element: <AddClass />,
+  },
+  {
+    path: "classes",
+    element: <MyClasses />,
   },
 ];

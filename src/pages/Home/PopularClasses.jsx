@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "../../components/Container";
 import { SectionHeader } from "../../components/shared/SectionHeader";
 import { PopularClassCard } from "../../components/cards/PopularClassCard";
+import axios from "axios";
 
 // TODO: Add Animation
-export const PopularClasses = ({ popularClasses }) => {
+export const PopularClasses = () => {
+  const [popularClasses, setPopularClasses] = useState([]);
+  useEffect(() => {
+    axios.get("http://localhost:5000/popularClasses").then((response) => {
+      setPopularClasses(response.data);
+    });
+  }, []);
+
   return (
     <div className="dark:bg-slate-800 bg-gray-100 dark:text-white md:p-20 p-5">
       <Container>

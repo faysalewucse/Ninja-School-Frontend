@@ -13,7 +13,6 @@ export const PopularInstructors = () => {
     });
   }, []);
 
-  console.log(popularInstructors);
   return (
     <div className="dark:bg-slate-900 bg-gray-100 dark:text-white md:p-20 p-5">
       <Container>
