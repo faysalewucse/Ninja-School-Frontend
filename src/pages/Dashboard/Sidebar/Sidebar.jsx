@@ -7,6 +7,7 @@ import {
 import { AiOutlineSetting } from "react-icons/ai";
 import { BiSelectMultiple, BiHelpCircle } from "react-icons/bi";
 import { GiNinjaArmor } from "react-icons/gi";
+import { FaUserShield } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { BsCreditCard } from "react-icons/bs";
 import { useAuth } from "../../../contexts/AuthContext";
@@ -52,6 +53,12 @@ export const Sidebar = () => {
       route: "Manage Classes",
       path: "manageClasses",
       icon: <MdManageAccounts />,
+      role: "admin",
+    },
+    {
+      route: "Manage Users",
+      path: "manageUsers",
+      icon: <FaUserShield />,
       role: "admin",
     },
   ];

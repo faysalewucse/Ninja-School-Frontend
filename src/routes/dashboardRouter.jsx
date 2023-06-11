@@ -8,6 +8,7 @@ import PrivateRoute from "./PrivateRoute";
 import { InstructorRoute } from "./InstructorRoute";
 import { AdminRoute } from "./AdminRoute";
 import { ManageClasses } from "../pages/Dashboard/ManageClasses";
+import { ManageUsers } from "../pages/Dashboard/ManageUsers";
 
 export const dashboardRouter = [
   {
@@ -51,6 +52,14 @@ export const dashboardRouter = [
     element: (
       <AdminRoute>
         <ManageClasses />
+      </AdminRoute>
+    ),
+  },
+  {
+    path: "manageUsers",
+    element: (
+      <AdminRoute>
+        <ManageUsers />
       </AdminRoute>
     ),
   },

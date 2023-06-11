@@ -149,6 +149,9 @@ export const ManageClasses = () => {
                         <td>
                           <div className="flex space-x-4 justify-center">
                             <button
+                              disabled={
+                                status === "approved" || status === "denied"
+                              }
                               onClick={() =>
                                 handleClassStatus(classInfo, "approved")
                               }
@@ -162,6 +165,9 @@ export const ManageClasses = () => {
                               <span className="ml-1">Approve</span>
                             </button>
                             <button
+                              disabled={
+                                status === "approved" || status === "denied"
+                              }
                               onClick={() =>
                                 handleClassStatus(classInfo, "denied")
                               }
