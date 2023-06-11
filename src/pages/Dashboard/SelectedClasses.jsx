@@ -63,7 +63,7 @@ export const SelectedClasses = () => {
     <div className="dark:bg-slate-900 min-h-[90vh] dark:text-white p-10 text-slate-800">
       {!isLoading ? (
         <Container>
-          <SectionHeader title={"My Classes"} />
+          <SectionHeader title={"Selected Classes"} />
           {bookedClasses.length > 0 ? (
             <table className="w-full bg-transparent border-collapse my-10 text-center">
               <thead className="text-center dark:bg-gray-200 text-slate-800">

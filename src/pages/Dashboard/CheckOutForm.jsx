@@ -70,9 +70,11 @@ export const CheckOutForm = ({ closeModal, payFor, refetch }) => {
 
     if (paymentIntent.status === "succeeded") {
       setTransactionId(paymentIntent.id);
+
       const paymentInfo = {
         userEmail: currentUser?.email,
         transactionId: paymentIntent.id,
+        date: new Date(Date.now()).toLocaleString(),
         price: payFor?.classInfo[0].price,
         classId: payFor?.classInfo[0]._id,
       };
