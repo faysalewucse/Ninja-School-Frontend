@@ -3,14 +3,14 @@ import HashLoader from "react-spinners/HashLoader";
 import { Container } from "../../components/Container";
 import { SectionHeader } from "../../components/shared/SectionHeader";
 import { useAuth } from "../../contexts/AuthContext";
-import { AiOutlineEye } from "react-icons/ai";
+import { AiFillEdit } from "react-icons/ai";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 export const MyClasses = () => {
   const [axiosSecure] = useAxiosSecure();
   const { currentUser } = useAuth();
 
-  const { isLoading, data: enrolledClasses = [] } = useQuery({
+  const { isLoading, data: myClasses = [] } = useQuery({
     queryKey: ["classes", currentUser?.email],
     queryFn: async () => {
       const { data } = await axiosSecure.get(
@@ -25,33 +25,33 @@ export const MyClasses = () => {
       {!isLoading ? (
         <Container>
           <SectionHeader title={"My Classes"} />
-          {enrolledClasses?.length > 0 ? (
+          {myClasses?.length > 0 ? (
             <table className="w-full bg-transparent border-collapse my-10 text-center">
               <thead className="text-center dark:bg-gray-200 bg-slate-800 dark:text-slate-800 text-white">
                 <tr className="border-b dark:border-gray-700">
                   <th className="py-2">Image</th>
                   <th>Class Name</th>
-                  <th>Instructor Name</th>
                   <th>Available Seats</th>
                   <th>Total Seats</th>
                   <th>Price</th>
+                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
 
               <tbody>
-                {enrolledClasses.map((enrolledClass) => {
+                {myClasses.map((myClass) => {
                   const {
                     name,
-                    instructorName,
+                    status,
                     totalSeats,
                     availableSeats,
                     price,
                     image,
-                  } = enrolledClass.classInfo[0];
+                  } = myClass;
                   return (
                     <tr
-                      key={enrolledClass._id}
+                      key={myClass._id}
                       className="border-b dark:border-gray-700"
                     >
                       <td className="py-4">
@@ -62,15 +62,27 @@ export const MyClasses = () => {
                         />
                       </td>
                       <td>{name}</td>
-                      <td>{instructorName}</td>
-                      <td>{availableSeats}</td>
                       <td>{totalSeats}</td>
+                      <td>{availableSeats}</td>
                       <td>{price}</td>
+                      <td>
+                        <span
+                          className={`${
+                            status === "pending"
+                              ? "bg-orange-100 text-orange-600"
+                              : status === "approved"
+                              ? "bg-green-100 text-green-600"
+                              : "bg-red-100 text-red-600"
+                          } font-semibold py-1 px-3 text-xs rounded-full`}
+                        >
+                          {status.toUpperCase()}
+                        </span>
+                      </td>
                       <td>
                         <div className="flex space-x-4 justify-center">
                           <button className="dark:text-green-300 text-green-600 hover:text-green-700 dark:hover:text-green-400 hover:scale-105 transition-all duration-150">
-                            <AiOutlineEye className="inline-block w-5 h-5" />
-                            <span className="ml-1">View Class</span>
+                            <AiFillEdit className="inline-block w-5 h-5" />
+                            <span className="ml-1">Update Class</span>
                           </button>
                         </div>
                       </td>
@@ -81,7 +93,7 @@ export const MyClasses = () => {
             </table>
           ) : (
             <h1 className="border p-5 mt-20 border-primary text-xl text-center">
-              No class Enrolled yet.
+              No class Added Yet
             </h1>
           )}
         </Container>
