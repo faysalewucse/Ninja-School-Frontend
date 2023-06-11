@@ -3,18 +3,19 @@ import HashLoader from "react-spinners/HashLoader";
 import { Container } from "../../components/Container";
 import { SectionHeader } from "../../components/shared/SectionHeader";
 import { useAuth } from "../../contexts/AuthContext";
-import { AiFillEdit } from "react-icons/ai";
+import { AiFillEdit, AiOutlineFileDone } from "react-icons/ai";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { MdOutlineFeedback } from "react-icons/md";
+import { GiCancel } from "react-icons/gi";
 
-export const MyClasses = () => {
+export const ManageClasses = () => {
   const [axiosSecure] = useAxiosSecure();
-  const { currentUser } = useAuth();
 
   const { isLoading, data: myClasses = [] } = useQuery({
-    queryKey: ["classes", currentUser?.email],
+    queryKey: ["allClasses"],
     queryFn: async () => {
       const { data } = await axiosSecure.get(
-        `${import.meta.env.VITE_BASE_API_URL}/classes/${currentUser?.email}`
+        `${import.meta.env.VITE_BASE_API_URL}/allClasses`
       );
       return data;
     },
@@ -32,12 +33,10 @@ export const MyClasses = () => {
                   <tr className="border-b dark:border-gray-700">
                     <th className="py-2">Image</th>
                     <th>Class Name</th>
+                    <th>Instructor</th>
                     <th>Available Seats</th>
-                    <th>Total Seats</th>
-                    <th>Total Enrolled Students</th>
                     <th>Price</th>
                     <th>Status</th>
-                    <th>Feedback</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -46,7 +45,8 @@ export const MyClasses = () => {
                     const {
                       name,
                       status,
-                      totalSeats,
+                      instructorName,
+                      instructorEmail,
                       availableSeats,
                       feedback = "",
                       price,
@@ -65,9 +65,15 @@ export const MyClasses = () => {
                           />
                         </td>
                         <td>{name}</td>
-                        <td>{totalSeats}</td>
+                        <td className="flex flex-col py-4">
+                          <span className="text-xl font-bold">
+                            {instructorName}
+                          </span>
+                          <span className="text-sm text-gray-500">
+                            {instructorEmail}
+                          </span>
+                        </td>
                         <td>{availableSeats}</td>
-                        <td>{totalSeats - availableSeats}</td>
                         <td>{price}</td>
                         <td>
                           <span
@@ -82,12 +88,33 @@ export const MyClasses = () => {
                             {status.toUpperCase()}
                           </span>
                         </td>
-                        <td>{feedback}</td>
                         <td>
                           <div className="flex space-x-4 justify-center">
-                            <button className="dark:text-green-300 text-green-600 hover:text-green-700 dark:hover:text-green-400 hover:scale-105 transition-all duration-150">
-                              <AiFillEdit className="inline-block w-5 h-5" />
-                              <span className="ml-1">Update Class</span>
+                            <button
+                              className={`dark:text-green-300 text-green-600 hover:text-green-700 dark:hover:text-green-400 hover:scale-105 transition-all duration-150 ${
+                                (status === "approved" ||
+                                  status === "denied") &&
+                                "opacity-50 cursor-not-allowed"
+                              }`}
+                            >
+                              <AiOutlineFileDone className="inline-block w-5 h-5" />
+                              <span className="ml-1">Approve</span>
+                            </button>
+                            <button
+                              className={`dark:text-red-300 text-red-600 hover:text-red-700 dark:hover:text-red-400 hover:scale-105 transition-all duration-150 ${
+                                (status === "approved" ||
+                                  status === "denied") &&
+                                "opacity-50 cursor-not-allowed"
+                              }`}
+                            >
+                              <GiCancel className="inline-block w-5 h-5" />
+                              <span className="ml-1">Deny</span>
+                            </button>
+                            <button
+                              className={`dark:text-sky-300 text-sky-600 hover:text-sky-700 dark:hover:text-sky-400 hover:scale-105 transition-all duration-150`}
+                            >
+                              <MdOutlineFeedback className="inline-block w-5 h-5" />
+                              <span className="ml-1">Feedback</span>
                             </button>
                           </div>
                         </td>

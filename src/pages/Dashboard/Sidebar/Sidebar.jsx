@@ -1,5 +1,6 @@
 import {
   MdClass,
+  MdManageAccounts,
   MdOutlineFlightClass,
   MdSpaceDashboard,
 } from "react-icons/md";
@@ -47,6 +48,12 @@ export const Sidebar = () => {
       icon: <MdClass />,
       role: "instructor",
     },
+    {
+      route: "Manage Classes",
+      path: "manageClasses",
+      icon: <MdManageAccounts />,
+      role: "admin",
+    },
   ];
 
   const menuItems2 = [
@@ -65,7 +72,7 @@ export const Sidebar = () => {
   const { currentUser } = useAuth();
 
   return (
-    <div className="min-h-screen hidden md:block dark:bg-slate-950 w-80 bg-white dark:text-white dark:shadow-none dark:border-none shadow-lg border-r-[1px]">
+    <div className="min-h-screen hidden lg:block dark:bg-slate-950 w-80 bg-white dark:text-white dark:shadow-none dark:border-none shadow-lg border-r-[1px]">
       {/* First Section */}
       <div className="p-10">
         <h1 className="font-bold text-2xl text-center">Ninja School</h1>
@@ -91,6 +98,24 @@ export const Sidebar = () => {
               } else if (
                 item?.role === "instructor" &&
                 currentUser?.role === "instructor"
+              ) {
+                return (
+                  <NavLink
+                    key={index}
+                    to={item.path}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-primary flex gap-3 font-bold items-center"
+                        : "flex hover:text-primary hover:font-bold gap-3 items-center transition-all duration-300"
+                    }
+                  >
+                    <div className="text-2xl">{item.icon}</div>
+                    <h1 className="text-lg">{item.route}</h1>
+                  </NavLink>
+                );
+              } else if (
+                item?.role === "admin" &&
+                currentUser?.role === "admin"
               ) {
                 return (
                   <NavLink

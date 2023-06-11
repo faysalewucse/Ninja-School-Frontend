@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 
 export const DashboardLayout = () => {
   return (
-    <div className="lg:flex hidden">
+    <div className="lg:flex">
       <Sidebar />
       <div className="flex-grow">
         <Navbar />

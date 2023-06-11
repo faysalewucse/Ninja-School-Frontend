@@ -6,6 +6,8 @@ import { Payments } from "../pages/Dashboard/Payments";
 import { SelectedClasses } from "../pages/Dashboard/SelectedClasses";
 import PrivateRoute from "./PrivateRoute";
 import { InstructorRoute } from "./InstructorRoute";
+import { AdminRoute } from "./AdminRoute";
+import { ManageClasses } from "../pages/Dashboard/ManageClasses";
 
 export const dashboardRouter = [
   {
@@ -42,6 +44,14 @@ export const dashboardRouter = [
       <InstructorRoute>
         <MyClasses />
       </InstructorRoute>
+    ),
+  },
+  {
+    path: "manageClasses",
+    element: (
+      <AdminRoute>
+        <ManageClasses />
+      </AdminRoute>
     ),
   },
 ];
