@@ -13,6 +13,7 @@ export const PopularInstructors = () => {
     });
   }, []);
 
+  console.log(popularInstructors);
   return (
     <div className="dark:bg-slate-900 bg-gray-100 dark:text-white md:p-20 p-5">
       <Container>
@@ -29,8 +30,8 @@ export const PopularInstructors = () => {
             <PopularInstructorCard
               key={instructor._id}
               index={index}
-              image={instructor.image}
-              classes={instructor.classNames}
+              image={instructor.photoURL}
+              classes={instructor.classInfo[0]}
               totalStudents={instructor.totalStudents}
               name={instructor.name}
             />

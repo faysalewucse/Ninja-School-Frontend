@@ -7,6 +7,7 @@ export const PopularInstructorCard = ({
   totalStudents,
   index,
 }) => {
+  console.log(cls);
   return (
     <div
       className={`md:flex gap-16 items-center md:w-1/2 ${
@@ -33,7 +34,7 @@ export const PopularInstructorCard = ({
               key={index}
               className="border py-1 px-2 rounded text-center my-2 border-primary"
             >
-              {className}
+              {className.name}
             </p>
           ))}
         </div>

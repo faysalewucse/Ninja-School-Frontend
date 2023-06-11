@@ -30,7 +30,7 @@ export const Payments = () => {
           <SectionHeader title={"My Classes"} />
           {enrolledClasses.length > 0 ? (
             <table className="w-full bg-transparent border-collapse my-10 text-center">
-              <thead className="text-center dark:bg-gray-200 text-slate-800">
+              <thead className="text-center dark:bg-gray-200 bg-slate-800 dark:text-slate-800 text-white">
                 <tr className="border-b dark:border-gray-700">
                   <th className="py-2">Serial</th>
                   <th>Price</th>
