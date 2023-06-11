@@ -5,6 +5,7 @@ import { EnrolledClasses } from "../pages/Dashboard/EnrolledClasses";
 import { Payments } from "../pages/Dashboard/Payments";
 import { SelectedClasses } from "../pages/Dashboard/SelectedClasses";
 import PrivateRoute from "./PrivateRoute";
+import { InstructorRoute } from "./InstructorRoute";
 
 export const dashboardRouter = [
   {
@@ -29,10 +30,18 @@ export const dashboardRouter = [
   },
   {
     path: "addClass",
-    element: <AddClass />,
+    element: (
+      <InstructorRoute>
+        <AddClass />
+      </InstructorRoute>
+    ),
   },
   {
     path: "classes",
-    element: <MyClasses />,
+    element: (
+      <InstructorRoute>
+        <MyClasses />
+      </InstructorRoute>
+    ),
   },
 ];
