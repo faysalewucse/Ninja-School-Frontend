@@ -2,15 +2,28 @@ import { useQuery } from "@tanstack/react-query";
 import HashLoader from "react-spinners/HashLoader";
 import { Container } from "../../components/Container";
 import { SectionHeader } from "../../components/shared/SectionHeader";
-import { useAuth } from "../../contexts/AuthContext";
-import { AiFillEdit, AiOutlineFileDone } from "react-icons/ai";
+import { AiOutlineFileDone } from "react-icons/ai";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { MdOutlineFeedback } from "react-icons/md";
 import { GiCancel } from "react-icons/gi";
 import Swal from "sweetalert2";
+import { useState } from "react";
+import { Modal, Button, Text } from "@nextui-org/react";
 
 export const ManageClasses = () => {
   const [axiosSecure] = useAxiosSecure();
+  const [visible, setVisible] = useState(false);
+  const [feedbackMsg, setFeedbackMsg] = useState("");
+  const [classId, setClassId] = useState("");
+  const handler = (id) => {
+    setClassId(id);
+    setVisible(true);
+  };
+  const closeHandler = () => {
+    setFeedbackMsg("");
+    setClassId("");
+    setVisible(false);
+  };
 
   const {
     isLoading,
@@ -26,32 +39,46 @@ export const ManageClasses = () => {
     },
   });
 
-  // handle class aproval
-  const handleClassAproval = (classInfo) => {
+  // handle class status
+  const handleClassStatus = (classInfo, status) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You want to approve this class.",
+      text: `You want to ${
+        status === "approved" ? "Approve" : "Deny"
+      } this class.`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Approve!",
+      confirmButtonText: `${status === "approved" ? "Approve" : "Deny"}`,
     }).then((result) => {
       if (result.isConfirmed) {
         axiosSecure
-          .patch(`/approvedClass/${classInfo._id}`)
+          .patch(`/changeClassStatus/${classInfo._id}?status=${status}`)
           .then((response) => {
             if (response.status === 200) {
-              refetch();
-              Swal.fire(
-                "Approved!",
-                "Class status has been Changed",
-                "success"
-              );
+              refetch().then(() => {
+                Swal.fire(
+                  `${status === "approved" ? "Approved!" : "Denied!"}`,
+                  "Class status has been Changed",
+                  "success"
+                );
+              });
             }
           });
       }
     });
+  };
+
+  const handleClassFeedback = () => {
+    axiosSecure
+      .patch(`/feedback/${classId}?message=${feedbackMsg}`)
+      .then((response) => {
+        if (response.status === 200) {
+          closeHandler();
+          Swal.fire(`Done!`, "Feedback sent successfully!", "success");
+        }
+      });
   };
   return (
     <div className="dark:bg-slate-900 min-h-[90vh] dark:text-white p-10 text-slate-800">
@@ -80,7 +107,6 @@ export const ManageClasses = () => {
                       instructorName,
                       instructorEmail,
                       availableSeats,
-                      feedback = "",
                       price,
                       image,
                     } = classInfo;
@@ -123,7 +149,9 @@ export const ManageClasses = () => {
                         <td>
                           <div className="flex space-x-4 justify-center">
                             <button
-                              onClick={() => handleClassAproval(classInfo)}
+                              onClick={() =>
+                                handleClassStatus(classInfo, "approved")
+                              }
                               className={`dark:text-green-300 text-green-600 hover:text-green-700 dark:hover:text-green-400 hover:scale-105 transition-all duration-150 ${
                                 (status === "approved" ||
                                   status === "denied") &&
@@ -134,6 +162,9 @@ export const ManageClasses = () => {
                               <span className="ml-1">Approve</span>
                             </button>
                             <button
+                              onClick={() =>
+                                handleClassStatus(classInfo, "denied")
+                              }
                               className={`dark:text-red-300 text-red-600 hover:text-red-700 dark:hover:text-red-400 hover:scale-105 transition-all duration-150 ${
                                 (status === "approved" ||
                                   status === "denied") &&
@@ -144,6 +175,7 @@ export const ManageClasses = () => {
                               <span className="ml-1">Deny</span>
                             </button>
                             <button
+                              onClick={() => handler(classInfo._id)}
                               className={`dark:text-sky-300 text-sky-600 hover:text-sky-700 dark:hover:text-sky-400 hover:scale-105 transition-all duration-150`}
                             >
                               <MdOutlineFeedback className="inline-block w-5 h-5" />
@@ -174,6 +206,51 @@ export const ManageClasses = () => {
           />
         </div>
       )}
+      <Modal
+        closeButton
+        preventClose
+        aria-labelledby="modal-title"
+        open={visible}
+        onClose={closeHandler}
+      >
+        <Modal.Header>
+          <Text id="modal-title" size={18}>
+            Status Feedback
+          </Text>
+        </Modal.Header>
+        <Modal.Body>
+          <label htmlFor="feedbackMsg">Write Your Feedback Message</label>
+          <textarea
+            name="feedbackMsg"
+            id="feedbackMsg"
+            placeholder="Write here..."
+            onChange={(e) => setFeedbackMsg(e.target.value)}
+            className="bg-gray-100 rounded-xl focus:outline-none p-2"
+            cols="30"
+            rows="5"
+          ></textarea>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            className="bg-red-100 hover:bg-red-200"
+            auto
+            color={"error"}
+            flat
+            onPress={closeHandler}
+          >
+            Close
+          </Button>
+          <Button
+            className="bg-sky-100 hover:bg-sky-200"
+            auto
+            color={"primary"}
+            flat
+            onPress={handleClassFeedback}
+          >
+            Send
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
