@@ -4,7 +4,6 @@ import HashLoader from "react-spinners/HashLoader";
 import { Container } from "../../components/Container";
 import { SectionHeader } from "../../components/shared/SectionHeader";
 import { useAuth } from "../../contexts/AuthContext";
-import axios from "axios";
 import { Modal, Text } from "@nextui-org/react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
@@ -22,7 +21,6 @@ export const SelectedClasses = () => {
   const [payFor, setPayFor] = useState();
 
   const paymentHandler = (bookedClass) => {
-    console.log(bookedClass);
     setPayFor(bookedClass);
     setVisible(true);
   };
@@ -37,9 +35,9 @@ export const SelectedClasses = () => {
     refetch,
     data: bookedClasses,
   } = useQuery({
-    queryKey: ["bookedClasses"],
+    queryKey: ["bookedClasses", currentUser?.email],
     queryFn: async () => {
-      const { data } = await axios.get(
+      const { data } = await axiosSecure.get(
         `${import.meta.env.VITE_BASE_API_URL}/bookedClasses/${
           currentUser.email
         }`
@@ -99,7 +97,7 @@ export const SelectedClasses = () => {
                         <img
                           src={image}
                           alt="Class"
-                          className="w-12 h-12 rounded-full"
+                          className="w-12 h-12 mx-auto rounded-full"
                         />
                       </td>
                       <td>{name}</td>
@@ -150,6 +148,7 @@ export const SelectedClasses = () => {
       <Modal
         width="600px"
         closeButton
+        preventClose
         aria-labelledby="modal-title"
         open={visible}
         onClose={closeModal}

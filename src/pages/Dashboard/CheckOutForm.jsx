@@ -74,7 +74,7 @@ export const CheckOutForm = ({ closeModal, payFor, refetch }) => {
         userEmail: currentUser?.email,
         transactionId: paymentIntent.id,
         price: payFor?.classInfo[0].price,
-        class: payFor?.classInfo[0]._id,
+        classId: payFor?.classInfo[0]._id,
       };
 
       axiosSecure.post("/payment", paymentInfo).then((response) => {

@@ -1,22 +1,9 @@
-import brand from "/brand.png";
-import brandWT from "/brandWT.png";
-import {
-  MdSpaceDashboard,
-  MdAnalytics,
-  MdOutlineDashboardCustomize,
-} from "react-icons/md";
-import {
-  AiOutlineShoppingCart,
-  AiOutlineUser,
-  AiOutlineSetting,
-} from "react-icons/ai";
-
-import { BsFillBagCheckFill, BsFillBasket2Fill } from "react-icons/bs";
+import { MdSpaceDashboard } from "react-icons/md";
+import { AiOutlineSetting } from "react-icons/ai";
 import { BiSelectMultiple, BiHelpCircle } from "react-icons/bi";
-import { CiDiscount1 } from "react-icons/ci";
+import { GiNinjaArmor } from "react-icons/gi";
 import { NavLink } from "react-router-dom";
-import { useTheme } from "../../../contexts/ThemeContext";
-import { useAuth } from "../../../contexts/AuthContext";
+import { BsCreditCard } from "react-icons/bs";
 
 export const Sidebar = () => {
   const menuItems = [
@@ -29,6 +16,16 @@ export const Sidebar = () => {
       route: "Selected Classes",
       path: "selectedClasses",
       icon: <BiSelectMultiple />,
+    },
+    {
+      route: "Enrolled Classes",
+      path: "enrolledClasses",
+      icon: <GiNinjaArmor />,
+    },
+    {
+      route: "Payments",
+      path: "payments",
+      icon: <BsCreditCard />,
     },
   ];
 
@@ -44,9 +41,6 @@ export const Sidebar = () => {
       icon: <BiHelpCircle />,
     },
   ];
-
-  const { isDark } = useTheme();
-  const { currentUser } = useAuth();
 
   return (
     <div className="min-h-screen hidden md:block dark:bg-slate-950 w-80 bg-white dark:text-white dark:shadow-none dark:border-none shadow-lg border-r-[1px]">
