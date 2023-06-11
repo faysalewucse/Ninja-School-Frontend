@@ -7,11 +7,16 @@ import { AiFillEdit, AiOutlineFileDone } from "react-icons/ai";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { MdOutlineFeedback } from "react-icons/md";
 import { GiCancel } from "react-icons/gi";
+import Swal from "sweetalert2";
 
 export const ManageClasses = () => {
   const [axiosSecure] = useAxiosSecure();
 
-  const { isLoading, data: myClasses = [] } = useQuery({
+  const {
+    isLoading,
+    data: allClasses = [],
+    refetch,
+  } = useQuery({
     queryKey: ["allClasses"],
     queryFn: async () => {
       const { data } = await axiosSecure.get(
@@ -21,12 +26,39 @@ export const ManageClasses = () => {
     },
   });
 
+  // handle class aproval
+  const handleClassAproval = (classInfo) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to approve this class.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Approve!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure
+          .patch(`/approvedClass/${classInfo._id}`)
+          .then((response) => {
+            if (response.status === 200) {
+              refetch();
+              Swal.fire(
+                "Approved!",
+                "Class status has been Changed",
+                "success"
+              );
+            }
+          });
+      }
+    });
+  };
   return (
     <div className="dark:bg-slate-900 min-h-[90vh] dark:text-white p-10 text-slate-800">
       {!isLoading ? (
         <Container>
           <SectionHeader title={"My Classes"} />
-          {myClasses?.length > 0 ? (
+          {allClasses?.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="w-full bg-transparent border-collapse my-10 text-center">
                 <thead className="text-center dark:bg-gray-200 bg-slate-800 dark:text-slate-800 text-white">
@@ -41,7 +73,7 @@ export const ManageClasses = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {myClasses.map((myClass) => {
+                  {allClasses.map((classInfo) => {
                     const {
                       name,
                       status,
@@ -51,10 +83,10 @@ export const ManageClasses = () => {
                       feedback = "",
                       price,
                       image,
-                    } = myClass;
+                    } = classInfo;
                     return (
                       <tr
-                        key={myClass._id}
+                        key={classInfo._id}
                         className="border-b dark:border-gray-700"
                       >
                         <td className="py-4">
@@ -91,6 +123,7 @@ export const ManageClasses = () => {
                         <td>
                           <div className="flex space-x-4 justify-center">
                             <button
+                              onClick={() => handleClassAproval(classInfo)}
                               className={`dark:text-green-300 text-green-600 hover:text-green-700 dark:hover:text-green-400 hover:scale-105 transition-all duration-150 ${
                                 (status === "approved" ||
                                   status === "denied") &&
