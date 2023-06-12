@@ -1,8 +1,20 @@
-import React from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
-export const PopularClassCard = ({ image, className, enrolledStudents }) => {
+AOS.init();
+
+export const PopularClassCard = ({
+  image,
+  className,
+  enrolledStudents,
+  index,
+}) => {
   return (
-    <div className="dark:bg-slate-900 bg-white rounded-lg shadow-lg flex flex-col items-center transition-transform transform hover:scale-105">
+    <div
+      data-aos={index % 2 ? "fade-up-left" : "fade-right"}
+      data-aos-duration="3000"
+      className="dark:bg-slate-900 bg-white rounded-lg shadow-lg flex flex-col items-center transition-transform transform hover:scale-105"
+    >
       <img
         className="rounded-t-lg w-full h-64 object-cover"
         src={image}

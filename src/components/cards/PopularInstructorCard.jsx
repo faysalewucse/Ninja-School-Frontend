@@ -1,4 +1,7 @@
-import React from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
+AOS.init();
 
 export const PopularInstructorCard = ({
   image,
@@ -9,6 +12,8 @@ export const PopularInstructorCard = ({
 }) => {
   return (
     <div
+      data-aos="fade-up"
+      data-aos-duration="3000"
       className={`md:flex gap-16 items-center md:w-1/2 ${
         index % 2 && "flex-row-reverse"
       }`}

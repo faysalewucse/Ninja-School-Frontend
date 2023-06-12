@@ -1,11 +1,16 @@
-import React from "react";
+import { motion } from "framer-motion";
 import Button from "../shared/Button";
 
 export const InstructorCard = ({ instructor }) => {
   const { name, photoURL, email, classInfo } = instructor;
 
   return (
-    <div className="md:flex gap-5 border border-primary p-5 border-dashed">
+    <motion.div
+      initial={{ scale: 0, y: "-10vh" }}
+      animate={{ scale: 1, y: 0 }}
+      transition={{ duration: 0.5, type: "spring", stiffness: 120 }}
+      className="md:flex gap-5 border border-primary p-5 border-dashed"
+    >
       <img
         className="w-full md:w-1/2 h-64 object-top object-cover"
         src={photoURL}
@@ -32,6 +37,6 @@ export const InstructorCard = ({ instructor }) => {
           style={"w-fit mx-auto md:mx-0 mt-2 md:mt-0"}
         />
       </div>
-    </div>
+    </motion.div>
   );
 };

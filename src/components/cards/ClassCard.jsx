@@ -4,6 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 export const ClassCard = ({ classInfo, bookedClasses, refetch }) => {
   const { currentUser } = useAuth();
@@ -50,7 +51,10 @@ export const ClassCard = ({ classInfo, bookedClasses, refetch }) => {
   };
 
   return (
-    <div
+    <motion.div
+      initial={{ scale: 0, y: "-30vh", x: "-10vw" }}
+      animate={{ scale: 1, y: 0, x: 0 }}
+      transition={{ duration: 0.5, type: "spring", stiffness: 120 }}
       className={`md:flex gap-5 border border-primary p-5 border-dashed rounded-2xl ${
         !availableSeats && "bg-gradient-to-br border-0 from-red-500 to-red-300"
       }`}
@@ -70,6 +74,11 @@ export const ClassCard = ({ classInfo, bookedClasses, refetch }) => {
         </div>
 
         <Button
+          disable={
+            !availableSeats ||
+            currentUser?.role === "admin" ||
+            currentUser?.role === "instructor"
+          }
           loading={loading}
           onClickHandler={() => selectClassHandler(_id)}
           text={`${
@@ -88,6 +97,6 @@ export const ClassCard = ({ classInfo, bookedClasses, refetch }) => {
           } w-11/12 mx-auto md:mx-0 mt-2 md:mt-0`}
         />
       </div>
-    </div>
+    </motion.div>
   );
 };

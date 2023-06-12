@@ -25,9 +25,10 @@ export const PopularClasses = () => {
         />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-7 my-10">
-          {popularClasses.map((popularClass) => (
+          {popularClasses.map((popularClass, index) => (
             <PopularClassCard
               key={popularClass._id}
+              index={index}
               image={popularClass.image}
               className={popularClass.name}
               enrolledStudents={

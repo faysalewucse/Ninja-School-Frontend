@@ -10,6 +10,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
+import { motion } from "framer-motion";
 
 export const Banner = () => {
   const { isDark } = useTheme();
@@ -28,24 +29,40 @@ export const Banner = () => {
           <Container>
             <div className="flex md:flex-row flex-col justify-center gap-5 items-center">
               <div className="text-center md:text-start">
-                <h1 className="text-xl md:text-4xl font-semibold text-primary">
+                <motion.h1
+                  animate={{ fontSize: "2.25rem" }}
+                  className="text-xl md:text-4xl font-semibold text-primary"
+                >
                   We Believe in You
-                </h1>
-                <p className="text-5xl md:text-7xl font-bold my-5">
+                </motion.h1>
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 2.5 }}
+                  className="text-5xl md:text-7xl font-bold my-5"
+                >
                   Prove Yourself To Be The Best
-                </p>
-                <p className="text-justify mb-5">
+                </motion.p>
+                <motion.p
+                  initial={{ x: "-100vw" }}
+                  animate={{ x: 0 }}
+                  transition={{ delay: 0.2, duration: 0.1 }}
+                  className="text-justify mb-5"
+                >
                   Train with Expert Instructors and Become a Martial Arts
                   Champion. Build Strength, Agility, and Self-Defense Skills
                   with Martial Arts. Unlock Your Inner Warrior and Master the
                   Art of Martial Arts
-                </p>
+                </motion.p>
                 <Button
                   text={"Admit Today"}
                   style={"bg-primary text-black dark:text-white"}
                 />
               </div>
-              <img
+              <motion.img
+                initial={{ x: "100vw" }}
+                animate={{ x: 0 }}
+                transition={{ delay: 0.2, duration: 0.1 }}
                 className="md:w-1/2"
                 src={isDark ? bannerWT : banner}
                 alt=""
