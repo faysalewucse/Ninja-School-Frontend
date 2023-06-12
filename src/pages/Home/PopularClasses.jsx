@@ -4,7 +4,6 @@ import { SectionHeader } from "../../components/shared/SectionHeader";
 import { PopularClassCard } from "../../components/cards/PopularClassCard";
 import axios from "axios";
 
-// TODO: Add Animation
 export const PopularClasses = () => {
   const [popularClasses, setPopularClasses] = useState([]);
   useEffect(() => {

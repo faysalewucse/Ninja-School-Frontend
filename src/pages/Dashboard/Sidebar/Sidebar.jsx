@@ -2,6 +2,7 @@ import {
   MdClass,
   MdManageAccounts,
   MdOutlineFlightClass,
+  MdOutlineKeyboardBackspace,
   MdSpaceDashboard,
 } from "react-icons/md";
 import { AiOutlineSetting } from "react-icons/ai";
@@ -11,8 +12,9 @@ import { FaUserShield } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import { BsCreditCard } from "react-icons/bs";
 import { useAuth } from "../../../contexts/AuthContext";
+import { SlClose } from "react-icons/sl";
 
-export const Sidebar = () => {
+export const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const menuItems = [
     {
       route: "Dashboard",
@@ -79,10 +81,20 @@ export const Sidebar = () => {
   const { currentUser } = useAuth();
 
   return (
-    <div className="min-h-screen hidden lg:block dark:bg-slate-950 w-80 bg-white dark:text-white dark:shadow-none dark:border-none shadow-lg border-r-[1px]">
+    <div
+      className={`min-h-screen md:relative md:left-0 absolute bottom-0 transition-all duration-200 ${
+        isSidebarOpen ? "left-0" : "-left-full"
+      } lg:block dark:bg-slate-950 w-80 bg-white dark:text-white dark:shadow-none dark:border-none shadow-lg border-r-[1px]`}
+    >
       {/* First Section */}
       <div className="p-10">
-        <h1 className="font-bold text-2xl text-center">Ninja School</h1>
+        <SlClose
+          onClick={() => setIsSidebarOpen(false)}
+          className="dark:text-white absolute right-6 top-10 text-3xl z-20 md:hidden"
+        />
+        <h1 className="flex items-center font-bold text-2xl text-center">
+          Ninja School
+        </h1>
         <h1 className="mt-10 mb-5">Menu</h1>
         <ul className="flex flex-col gap-7">
           {menuItems.map((item, index) => {

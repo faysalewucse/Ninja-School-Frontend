@@ -4,7 +4,7 @@ import avatar from "/avatar.png";
 import { NavLink, useNavigate } from "react-router-dom";
 import { dropdownItems, navItems } from "./navItems";
 import { Container } from "../Container";
-import { MdOutlineWbSunny } from "react-icons/md";
+import { MdDashboardCustomize, MdOutlineWbSunny } from "react-icons/md";
 import { SlClose, SlMenu } from "react-icons/sl";
 import { HiMoon } from "react-icons/hi";
 import { useTheme } from "../../contexts/ThemeContext";
@@ -12,7 +12,7 @@ import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import ButtonOutline from "../shared/ButtonOutline";
 
-export const Navbar = () => {
+export const Navbar = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const { isDark, toggleDarkMode } = useTheme();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -23,13 +23,24 @@ export const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <div className="border-b-[1px] p-7 shadow dark:bg-slate-950 dark:border-b-slate-800">
       <Container>
         <div className="flex items-center justify-between">
+          <div
+            onClick={toggleSidebar}
+            className="md:hidden font-bold flex items-center gap-2 text-white"
+          >
+            <MdDashboardCustomize className="text-3xl" />
+            Ninja School
+          </div>
           <img
             onClick={() => navigate("/")}
-            className="w-16 cursor-pointer"
+            className="w-16 cursor-pointer hidden md:block"
             src={isDark ? brandWhite : brand}
             alt="brand"
           />
@@ -45,7 +56,7 @@ export const Navbar = () => {
                     className={({ isActive }) =>
                       isActive
                         ? "font-semibold text-secondary"
-                        : "hover:text-secondary dark:text-white"
+                        : "dark:hover:text-secondary dark:text-white"
                     }
                     to={navItem.path}
                     key={index}
@@ -59,7 +70,7 @@ export const Navbar = () => {
                     className={({ isActive }) =>
                       isActive
                         ? "font-semibold text-secondary"
-                        : "hover:text-secondary dark:text-white"
+                        : "dark:hover:text-secondary dark:text-white"
                     }
                     to={navItem.path}
                     key={index}
@@ -116,6 +127,7 @@ export const Navbar = () => {
                         {item.pathName}
                       </NavLink>
                     ))}
+
                     <NavLink
                       onClick={logout}
                       className={`block px-4 py-2 text-red-500 hover:text-red-600`}

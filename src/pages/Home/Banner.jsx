@@ -14,12 +14,12 @@ import { motion } from "framer-motion";
 
 export const Banner = () => {
   const { isDark } = useTheme();
-  //TODO: set autoplat delay 2500
+  //TODO3: set autoplat delay 2500
   return (
     <Swiper
       navigation={true}
       autoplay={{
-        delay: 25000,
+        delay: 2500,
         disableOnInteraction: false,
       }}
       modules={[Autoplay, Navigation]}

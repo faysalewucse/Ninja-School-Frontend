@@ -9,6 +9,7 @@ import { InstructorRoute } from "./InstructorRoute";
 import { AdminRoute } from "./AdminRoute";
 import { ManageClasses } from "../pages/Dashboard/ManageClasses";
 import { ManageUsers } from "../pages/Dashboard/ManageUsers";
+import { StudentRoute } from "./StudentRoute";
 
 export const dashboardRouter = [
   {
@@ -21,15 +22,27 @@ export const dashboardRouter = [
   },
   {
     path: "selectedClasses",
-    element: <SelectedClasses />,
+    element: (
+      <StudentRoute>
+        <SelectedClasses />
+      </StudentRoute>
+    ),
   },
   {
     path: "enrolledClasses",
-    element: <EnrolledClasses />,
+    element: (
+      <StudentRoute>
+        <EnrolledClasses />
+      </StudentRoute>
+    ),
   },
   {
     path: "payments",
-    element: <Payments />,
+    element: (
+      <StudentRoute>
+        <Payments />
+      </StudentRoute>
+    ),
   },
   {
     path: "addClass",

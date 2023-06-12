@@ -27,7 +27,7 @@ export function AuthProvider({ children }) {
   const [error, setError] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
 
-  // TODO: remove setLoading function
+  // TODO1: remove setLoading function
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       // getUsersData from Database

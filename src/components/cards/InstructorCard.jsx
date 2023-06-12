@@ -27,7 +27,7 @@ export const InstructorCard = ({ instructor }) => {
         </h1>
         <div className="hidden md:block">
           {classInfo.map(({ name }, index) => (
-            <h3>
+            <h3 key={index}>
               {index + 1}. {name}
             </h3>
           ))}
