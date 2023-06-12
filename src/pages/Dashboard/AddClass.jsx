@@ -192,6 +192,7 @@ export const AddClass = () => {
               />
             </div>
             <input
+              disabled={loading}
               type="submit"
               className={`${
                 loading

@@ -218,6 +218,7 @@ export const Register = () => {
             ></textarea>
           </div>
           <input
+            disabled={loading}
             type="submit"
             className={`${
               loading && "disabled cursor-not-allowed opacity-50"

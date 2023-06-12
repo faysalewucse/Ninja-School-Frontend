@@ -32,7 +32,6 @@ export function AuthProvider({ children }) {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
 
-      console.log(user);
       // getUsersData from Database if not found save to database
       if (user) {
         await axios

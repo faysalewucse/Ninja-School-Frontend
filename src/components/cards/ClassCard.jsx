@@ -6,7 +6,7 @@ import axios from "axios";
 import { useState } from "react";
 import { motion } from "framer-motion";
 
-export const ClassCard = ({ classInfo, bookedClasses, refetch }) => {
+export const ClassCard = ({ classInfo, bookedClasses, refetch, openModal }) => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -64,38 +64,46 @@ export const ClassCard = ({ classInfo, bookedClasses, refetch }) => {
         src={image}
         alt="instructor_image"
       />
-      <div className="text-center md:text-start flex flex-col justify-between">
+      <div className="flex-grow text-center md:text-start flex flex-col justify-between">
         <div className="flex flex-col gap-1">
           <h1 className="text-3xl font-bold">{name}</h1>
           <h1 className="text-lg font-bold">Instructor: {instructorName}</h1>
           <h1>Seats Available: {availableSeats}</h1>
-          <h1>Total Seats: {totalSeats}</h1>
-          <h1>Price: {price}$</h1>
+          <div className="flex justify-center gap-3 md:block">
+            <h1>Total Seats: {totalSeats}</h1>
+            <h1 className="text-primary font-semibold">Price: {price}$</h1>
+          </div>
         </div>
 
-        <Button
-          disable={
-            !availableSeats ||
-            currentUser?.role === "admin" ||
-            currentUser?.role === "instructor"
-          }
-          loading={loading}
-          onClickHandler={() => selectClassHandler(_id)}
-          text={`${
-            alreadyBooked()
-              ? "Already Selected"
-              : availableSeats
-              ? "Select"
-              : "No Seats Available"
-          }`}
-          style={`${
-            (alreadyBooked() ||
+        <div className="mt-5 md:mt-0 flex justify-between">
+          <Button
+            disable={
               !availableSeats ||
               currentUser?.role === "admin" ||
-              currentUser?.role === "instructor") &&
-            "cursor-not-allowed opacity-50"
-          } w-11/12 mx-auto md:mx-0 mt-2 md:mt-0`}
-        />
+              currentUser?.role === "instructor"
+            }
+            loading={loading}
+            onClickHandler={() => selectClassHandler(_id)}
+            text={`${
+              alreadyBooked()
+                ? "Already Selected"
+                : availableSeats
+                ? "Select"
+                : "Seat Full"
+            }`}
+            style={`${
+              (alreadyBooked() ||
+                !availableSeats ||
+                currentUser?.role === "admin" ||
+                currentUser?.role === "instructor") &&
+              "cursor-not-allowed opacity-50"
+            }`}
+          />
+          <Button
+            onClickHandler={() => openModal(classInfo)}
+            text={"Watch Intro"}
+          />
+        </div>
       </div>
     </motion.div>
   );

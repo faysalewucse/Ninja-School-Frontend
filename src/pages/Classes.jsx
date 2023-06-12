@@ -6,10 +6,25 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useAuth } from "../contexts/AuthContext";
 import HashLoader from "react-spinners/HashLoader";
+import { useState } from "react";
+import { Modal, Text } from "@nextui-org/react";
+import ReactPlayer from "react-player";
 
 export const Classes = () => {
   const { data: classes } = useLoaderData();
   const { currentUser } = useAuth();
+  const [visible, setVisible] = useState(false);
+  const [classInfo, setClassInfo] = useState();
+
+  const openModal = (classData) => {
+    setClassInfo(classData);
+    setVisible(true);
+  };
+
+  const closeModal = () => {
+    setClassInfo();
+    setVisible(false);
+  };
 
   const {
     isLoading,
@@ -40,6 +55,7 @@ export const Classes = () => {
                 classInfo={classInfo}
                 bookedClasses={bookedClasses}
                 refetch={refetch}
+                openModal={openModal}
               />
             ))}
           </div>
@@ -55,6 +71,28 @@ export const Classes = () => {
           />
         </div>
       )}
+      <Modal
+        width="600px"
+        closeButton
+        preventClose
+        aria-labelledby="modal-title"
+        open={visible}
+        onClose={closeModal}
+      >
+        <Modal.Header>
+          <Text b id="modal-title" size={18}>
+            Intro Video
+          </Text>
+        </Modal.Header>
+        <Modal.Body>
+          <ReactPlayer
+            width="100%"
+            style={{ marginBottom: "30px" }}
+            controls
+            url="https://youtu.be/H71OH6wGVVs"
+          />
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };
