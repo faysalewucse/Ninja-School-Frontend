@@ -26,11 +26,13 @@ export const InstructorCard = ({ instructor, openModal }) => {
           Classes
         </h1>
         <div className="hidden md:block">
-          {classInfo.map(({ name }, index) => (
-            <h3 key={index}>
-              {index + 1}. {name}
-            </h3>
-          ))}
+          {classInfo
+            ?.filter((item) => item.status === "approved")
+            .map(({ name }, index) => (
+              <h3 key={index}>
+                {index + 1}. {name}
+              </h3>
+            ))}
         </div>
         <Button
           onClickHandler={() => openModal(instructor)}

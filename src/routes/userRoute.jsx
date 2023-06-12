@@ -1,10 +1,12 @@
 import axios from "axios";
 import PublicRoute from "./PublicRoute";
+import PrivateRoute from "./PrivateRoute";
 import { Home } from "../pages/Home/Home";
 import { Login } from "../pages/Login";
 import { Register } from "../pages/Register";
 import { Instructors } from "../pages/Instructors";
 import { Classes } from "../pages/Classes";
+import UserProfile from "../pages/UserProfile";
 
 export const userRouter = [
   {
@@ -37,6 +39,14 @@ export const userRouter = [
       <PublicRoute>
         <Register />
       </PublicRoute>
+    ),
+  },
+  {
+    path: "/profile",
+    element: (
+      <PrivateRoute>
+        <UserProfile />
+      </PrivateRoute>
     ),
   },
 ];

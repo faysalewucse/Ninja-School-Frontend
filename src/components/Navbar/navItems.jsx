@@ -10,7 +10,7 @@ export const navItems = [
 ];
 
 export const dropdownItems = [
-  { path: "/", pathName: "Profile" },
+  { path: "/profile", pathName: "Profile" },
   { path: "/dashboard", pathName: "Dashboard" },
   { path: "/", pathName: "Settings" },
 ];
