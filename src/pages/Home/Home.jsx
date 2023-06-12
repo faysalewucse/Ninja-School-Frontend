@@ -3,9 +3,12 @@ import { Banner } from "./Banner";
 import { PopularClasses } from "./PopularClasses";
 import { PopularInstructors } from "./PopularInstructors";
 import { Benefits } from "./Benefits";
-// import preloader from "/preloader.gif";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import Contact from "./Contact";
 
-// TODO: Add Contact and Blog Sections
+AOS.init();
+// TODO: Add Blog Sections
 export const Home = () => {
   return (
     <div className="overflow-hidden">
@@ -14,6 +17,7 @@ export const Home = () => {
         <PopularClasses />
         <PopularInstructors />
         <Benefits />
+        <Contact />
       </>
     </div>
   );

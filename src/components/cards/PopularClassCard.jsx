@@ -1,8 +1,3 @@
-import AOS from "aos";
-import "aos/dist/aos.css";
-
-AOS.init();
-
 export const PopularClassCard = ({
   image,
   className,
@@ -11,8 +6,8 @@ export const PopularClassCard = ({
 }) => {
   return (
     <div
-      data-aos={index % 2 ? "fade-up-left" : "fade-right"}
-      data-aos-duration="3000"
+      data-aos={index % 2 ? "fade-left" : "fade-right"}
+      data-aos-duration="1000"
       className="dark:bg-slate-900 bg-white rounded-lg shadow-lg flex flex-col items-center transition-transform transform hover:scale-105"
     >
       <img
