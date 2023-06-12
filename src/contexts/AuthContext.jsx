@@ -30,12 +30,34 @@ export function AuthProvider({ children }) {
   // TODO1: remove setLoading function
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      // getUsersData from Database
+      setCurrentUser(user);
+
+      console.log(user);
+      // getUsersData from Database if not found save to database
       if (user) {
         await axios
           .get(`${import.meta.env.VITE_BASE_API_URL}/users/${user.email}`)
-          .then(({ data: user }) => {
-            setCurrentUser(user);
+          .then(({ data: userData }) => {
+            if (userData) {
+              setCurrentUser(userData);
+            } else {
+              const newUser = {
+                name: user.displayName,
+                email: user.email,
+                photoURL: user.photoURL,
+                address: "",
+                gender: "",
+                phoneNumber: "",
+                role: "student",
+              };
+              axios
+                .post(`${import.meta.env.VITE_BASE_API_URL}/user`, newUser)
+                .then((response) => {
+                  if (response.status === 200) {
+                    setCurrentUser(newUser);
+                  }
+                });
+            }
           });
       } else {
         setCurrentUser(user);
@@ -88,14 +110,7 @@ export function AuthProvider({ children }) {
   // signin with google
   async function googleSignIn() {
     const googleAuthProvider = new GoogleAuthProvider();
-    return signInWithPopup(auth, googleAuthProvider)
-      .then((result) => {
-        const user = result.user;
-        setCurrentUser({ ...user });
-      })
-      .catch((error) => {
-        setError(error.message);
-      });
+    return signInWithPopup(auth, googleAuthProvider);
   }
 
   //logout function

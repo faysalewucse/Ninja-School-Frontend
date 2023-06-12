@@ -7,9 +7,11 @@ import { PopularInstructorCard } from "../../components/cards/PopularInstructorC
 export const PopularInstructors = () => {
   const [popularInstructors, setPopularInstructors] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:5000/instructors/popular").then((response) => {
-      setPopularInstructors(response.data);
-    });
+    axios
+      .get(`${import.meta.env.VITE_BASE_API_URL}/instructors/popular`)
+      .then((response) => {
+        setPopularInstructors(response.data);
+      });
   }, []);
 
   return (

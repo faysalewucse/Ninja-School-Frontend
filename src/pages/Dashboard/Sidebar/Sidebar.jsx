@@ -80,6 +80,8 @@ export const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
 
   const { currentUser } = useAuth();
 
+  console.log(isSidebarOpen);
+
   return (
     <div
       className={`min-h-screen md:relative md:left-0 absolute bottom-0 transition-all duration-200 ${

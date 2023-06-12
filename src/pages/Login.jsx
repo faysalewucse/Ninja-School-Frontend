@@ -127,6 +127,7 @@ export const Login = () => {
 
               <div className="text-center mt-6">
                 <input
+                  disabled={loading}
                   type="submit"
                   value="SIGN IN"
                   className={`${
