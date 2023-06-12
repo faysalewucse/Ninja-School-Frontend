@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import Button from "../shared/Button";
 
-export const InstructorCard = ({ instructor }) => {
+export const InstructorCard = ({ instructor, openModal }) => {
   const { name, photoURL, email, classInfo } = instructor;
 
   return (
@@ -33,6 +33,7 @@ export const InstructorCard = ({ instructor }) => {
           ))}
         </div>
         <Button
+          onClickHandler={() => openModal(instructor)}
           text={"See Classes"}
           style={"w-fit mx-auto md:mx-0 mt-2 md:mt-0"}
         />

@@ -11,7 +11,6 @@ export const Classes = () => {
   const { data: classes } = useLoaderData();
   const { currentUser } = useAuth();
 
-  console.log(classes);
   const {
     isLoading,
     refetch,

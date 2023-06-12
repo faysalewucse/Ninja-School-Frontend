@@ -13,9 +13,7 @@ export const MyClasses = () => {
   const { isLoading, data: myClasses = [] } = useQuery({
     queryKey: ["classes", currentUser?.email],
     queryFn: async () => {
-      const { data } = await axiosSecure.get(
-        `${import.meta.env.VITE_BASE_API_URL}/classes/${currentUser?.email}`
-      );
+      const { data } = await axiosSecure.get(`/classes/${currentUser?.email}`);
       return data;
     },
   });
