@@ -7,9 +7,11 @@ import axios from "axios";
 export const PopularClasses = () => {
   const [popularClasses, setPopularClasses] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:5000/popularClasses").then((response) => {
-      setPopularClasses(response.data);
-    });
+    axios
+      .get(`${import.meta.env.VITE_BASE_API_URL}/popularClasses`)
+      .then((response) => {
+        setPopularClasses(response.data);
+      });
   }, []);
 
   return (

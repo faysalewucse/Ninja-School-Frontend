@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { useLoaderData } from "react-router-dom";
 import { Container } from "../components/Container";
 import { SectionHeader } from "../components/shared/SectionHeader";
