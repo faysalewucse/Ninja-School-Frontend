@@ -51,7 +51,7 @@ export const Dashboard = () => {
       {!isLoading && !infoLoading ? (
         <Container extraStyle={"md:flex justify-between items-center"}>
           <div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 py-10 px-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 px-5">
               {currentUser?.role === "student" && (
                 <DashboardCard
                   number={bookedClasses?.length || 0}
@@ -97,7 +97,7 @@ export const Dashboard = () => {
             </div>
           </div>
           {currentUser?.role === "admin" && (
-            <div className="md:w-1/2 lg:w-1/3">
+            <div className="md:w-1/2 lg:w-1/3 py-10">
               <Pie
                 data={{
                   labels: ["Instructors", "Classes", "Students", "Admins"],
